@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Cadastro de Pet</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Cadastrar Pet 🐾</h1>
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Nome do pet"
+            >
+
+            <label>Espécie</label>
+
+            <select id="especie">
+
+                <option value="gato">
+                    Gato
+                </option>
+
+                <option value="cachorro">
+                    Cachorro
+                </option>
+
+            </select>
+
+            <label>Raça</label>
+
+            <input
+                type="text"
+                id="raca"
+                placeholder="Raça do pet"
+            >
+
+            <label>Idade</label>
+
+            <div class="idade-container">
+
+                <div>
+
+                    <input
+                        type="number"
+                        id="idadeAnos"
+                        min="0"
+                        placeholder="Anos"
+                    >
+
+                </div>
+
+                <div>
+
+                    <input
+                        type="number"
+                        id="idadeMeses"
+                        min="0"
+                        max="11"
+                        placeholder="Meses"
+                    >
+
+                </div>
+
+            </div>
+
+            <label>Porte</label>
+
+            <select id="porte">
+
+                <option value="pequeno">
+                    Pequeno
+                </option>
+
+                <option value="medio">
+                    Médio
+                </option>
+
+                <option value="grande">
+                    Grande
+                </option>
+
+            </select>
+
+            <label>Cor da pelagem</label>
+
+            <input
+                type="text"
+                id="pelagem"
+                placeholder="Ex: Branco e preto"
+            >
+
+            <label>Cor dos olhos</label>
+
+            <input
+                type="text"
+                id="olhos"
+                placeholder="Ex: Verde"
+            >
+
+            <div class="checkbox-group">
+
+                <label class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="sociavel"
+                    >
+
+                    Sociável
+
+                </label>
+
+                <label class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="racao"
+                    >
+
+                    Já come ração
+
+                </label>
+
+                <label class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="caixaAreia"
+                    >
+
+                    Usa caixa de areia
+
+                </label>
+
+            </div>
+
+            <button onclick="cadastrarPet()">
+
+                Cadastrar Pet
+
+            </button>
+
+            <div id="mensagem"></div>
+
+        </div>
+
+    </div>
+
+    <script src="js/cadastroPet.js"></script>
+
+</body>
+</html>
