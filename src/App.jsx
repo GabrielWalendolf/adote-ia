@@ -6,6 +6,8 @@ import Adocao from './pages/Adocao.jsx'
 import Pets from './pages/Pets.jsx'
 import Cadastro from './pages/Cadastro.jsx'
 import Admin from './pages/Admin.jsx'
+import Memorias from './pages/Memorias.jsx'
+import RAGBusca from './pages/RAGBusca.jsx'
 
 export default function App() {
   return (
@@ -14,11 +16,13 @@ export default function App() {
         <Navbar />
         <main className="flex-1">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/adocao" element={<Adocao />} />
-            <Route path="/pets" element={<Pets />} />
-            <Route path="/cadastro" element={<Cadastro />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/"              element={<Home />} />
+            <Route path="/adocao"        element={<Adocao />} />
+            <Route path="/pets"          element={<Pets />} />
+            <Route path="/cadastro"      element={<Cadastro />} />
+            <Route path="/admin"         element={<Admin />} />
+            <Route path="/memorias/:id"  element={<Memorias />} />
+            <Route path="/rag"           element={<RAGBusca />} />
           </Routes>
         </main>
         <Footer />

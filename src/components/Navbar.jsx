@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  { to: '/',        label: 'Início',        icon: 'ti-home'     },
-  { to: '/adocao',  label: 'Adoção IA',     icon: 'ti-sparkles' },
-  { to: '/pets',    label: 'Pets',          icon: 'ti-paw'      },
-  { to: '/cadastro',label: 'Cadastrar Pet', icon: 'ti-plus'     },
-  { to: '/admin',   label: 'Admin',         icon: 'ti-settings' },
+  { to: '/',         label: 'Início',        icon: 'ti-home'        },
+  { to: '/adocao',   label: 'Adoção IA',     icon: 'ti-sparkles'    },
+  { to: '/pets',     label: 'Pets',          icon: 'ti-paw'         },
+  { to: '/rag',      label: 'Busca RAG',     icon: 'ti-search'      },
+  { to: '/cadastro', label: 'Cadastrar',     icon: 'ti-plus'        },
+  { to: '/admin',    label: 'Admin',         icon: 'ti-settings'    },
 ]
 
 export default function Navbar() {
@@ -16,21 +17,21 @@ export default function Navbar() {
           🐾 <span className="hidden sm:inline">Adoção Inteligente</span>
         </NavLink>
 
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center gap-0.5">
           {links.map(({ to, label, icon }) => (
             <NavLink
               key={to}
               to={to}
               end={to === '/'}
               className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ` +
+                `flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ` +
                 (isActive
                   ? 'bg-brand-100 text-brand-600'
                   : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700')
               }
             >
-              <i className={`${icon} text-base`}></i>
-              <span className="hidden sm:inline">{label}</span>
+              <i className={`${icon} text-base`} />
+              <span className="hidden md:inline">{label}</span>
             </NavLink>
           ))}
         </nav>

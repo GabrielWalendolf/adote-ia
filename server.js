@@ -2,6 +2,7 @@ import express from 'express'
 import sqlite3pkg from 'sqlite3'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import multer from 'multer'
 
 const { verbose } = sqlite3pkg
 const sqlite3 = verbose()
@@ -11,6 +12,11 @@ const __dirname  = path.dirname(__filename)
 
 const app = express()
 app.use(express.json())
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 25 * 1024 * 1024 },
+})
 
 const db = new sqlite3.Database(path.join(__dirname, 'database.db'))
 
@@ -31,6 +37,17 @@ db.serialize(() => {
       descricao   TEXT,
       contato     TEXT,
       created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `)
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS pet_memories (
+      id         INTEGER PRIMARY KEY AUTOINCREMENT,
+      pet_id     INTEGER NOT NULL,
+      tipo       TEXT    DEFAULT 'texto',
+      conteudo   TEXT    NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
     )
   `)
 })
@@ -127,6 +144,184 @@ app.delete('/api/pets/:id', (req, res) => {
     if (err)           return res.status(500).json({ erro: err.message })
     if (!this.changes) return res.status(404).json({ erro: 'Pet não encontrado' })
     res.json({ ok: true })
+  })
+})
+
+// ─── Memórias: listar ────────────────────────────────────────────────────────
+
+app.get('/api/pets/:id/memories', (req, res) => {
+  db.all(
+    'SELECT * FROM pet_memories WHERE pet_id = ? ORDER BY created_at DESC',
+    [req.params.id],
+    (err, rows) => {
+      if (err) return res.status(500).json({ erro: err.message })
+      res.json(rows)
+    }
+  )
+})
+
+// ─── Memórias: adicionar texto ───────────────────────────────────────────────
+
+app.post('/api/pets/:id/memories', (req, res) => {
+  const { conteudo, tipo = 'texto' } = req.body
+  if (!conteudo?.trim()) return res.status(400).json({ erro: 'Conteúdo obrigatório.' })
+
+  db.run(
+    'INSERT INTO pet_memories (pet_id, tipo, conteudo) VALUES (?, ?, ?)',
+    [req.params.id, tipo, conteudo.trim()],
+    function (err) {
+      if (err) return res.status(500).json({ erro: err.message })
+      db.get('SELECT * FROM pet_memories WHERE id = ?', [this.lastID], (e, row) => {
+        if (e) return res.status(500).json({ erro: e.message })
+        res.json(row)
+      })
+    }
+  )
+})
+
+// ─── Memórias: upload de áudio + transcrição Groq Whisper ────────────────────
+
+app.post('/api/pets/:id/audio', upload.single('audio'), async (req, res) => {
+  const { apiKey } = req.body
+  if (!apiKey)    return res.status(400).json({ erro: 'Chave API obrigatória.' })
+  if (!req.file)  return res.status(400).json({ erro: 'Arquivo de áudio obrigatório.' })
+
+  try {
+    const formData = new FormData()
+    const blob = new Blob([req.file.buffer], { type: req.file.mimetype || 'audio/webm' })
+    formData.append('file', blob, req.file.originalname || 'audio.webm')
+    formData.append('model', 'whisper-large-v3-turbo')
+    formData.append('language', 'pt')
+
+    const groqRes = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}` },
+      body: formData,
+    })
+
+    if (!groqRes.ok) {
+      const err = await groqRes.json().catch(() => ({}))
+      return res.status(502).json({ erro: err.error?.message || 'Erro na transcrição.' })
+    }
+
+    const { text: transcricao } = await groqRes.json()
+
+    db.run(
+      'INSERT INTO pet_memories (pet_id, tipo, conteudo) VALUES (?, ?, ?)',
+      [req.params.id, 'audio', transcricao],
+      function (err) {
+        if (err) return res.status(500).json({ erro: err.message })
+        db.get('SELECT * FROM pet_memories WHERE id = ?', [this.lastID], (e, row) => {
+          if (e) return res.status(500).json({ erro: e.message })
+          res.json(row)
+        })
+      }
+    )
+  } catch (e) {
+    res.status(500).json({ erro: e.message })
+  }
+})
+
+// ─── Memórias: deletar ────────────────────────────────────────────────────────
+
+app.delete('/api/memories/:id', (req, res) => {
+  db.run('DELETE FROM pet_memories WHERE id = ?', [req.params.id], function (err) {
+    if (err)           return res.status(500).json({ erro: err.message })
+    if (!this.changes) return res.status(404).json({ erro: 'Memória não encontrada.' })
+    res.json({ ok: true })
+  })
+})
+
+// ─── RAG: busca semântica em linguagem natural ────────────────────────────────
+
+app.post('/api/rag/busca', async (req, res) => {
+  const { query, apiKey } = req.body
+  if (!query?.trim()) return res.status(400).json({ erro: 'Query obrigatória.' })
+  if (!apiKey)        return res.status(400).json({ erro: 'Chave API obrigatória.' })
+
+  db.all('SELECT * FROM pets ORDER BY nome', [], (err, pets) => {
+    if (err) return res.status(500).json({ erro: err.message })
+
+    db.all('SELECT * FROM pet_memories ORDER BY pet_id, created_at DESC', [], async (err2, memories) => {
+      if (err2) return res.status(500).json({ erro: err2.message })
+
+      // agrupa memórias por pet
+      const memoriasPorPet = {}
+      for (const m of memories) {
+        if (!memoriasPorPet[m.pet_id]) memoriasPorPet[m.pet_id] = []
+        memoriasPorPet[m.pet_id].push(m)
+      }
+
+      // monta contexto (pet info + memórias = base do RAG)
+      const contexto = pets.map(pet => {
+        const mems = memoriasPorPet[pet.id] || []
+        const memTexto = mems.length > 0
+          ? mems.map(m => `    [${m.tipo}] ${m.conteudo}`).join('\n')
+          : '    (nenhuma observação registrada)'
+        const info = [
+          pet.especie,
+          pet.raca,
+          pet.porte && `porte ${pet.porte}`,
+          pet.idade,
+          pet.sexo,
+          pet.vacinado ? 'vacinado' : null,
+          pet.castrado ? 'castrado' : null,
+          pet.descricao,
+        ].filter(Boolean).join(', ')
+        return `**${pet.nome}** (ID ${pet.id}) — ${info}\n  Observações dos voluntários:\n${memTexto}`
+      }).join('\n\n')
+
+      try {
+        const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: [
+              {
+                role: 'system',
+                content:
+                  'Você é um assistente de uma ONG de adoção de pets. ' +
+                  'Responda perguntas sobre os pets com base nas informações e nas memórias/observações registradas pelos voluntários. ' +
+                  'Seja específico: cite o nome e o ID de cada pet relevante. ' +
+                  'Sempre responda em português brasileiro.',
+              },
+              {
+                role: 'user',
+                content: `Informações dos pets:\n\n${contexto}\n\n---\n\nPergunta: ${query.trim()}`,
+              },
+            ],
+            temperature: 0.4,
+            max_tokens: 1024,
+          }),
+        })
+
+        if (!groqRes.ok) {
+          const err = await groqRes.json().catch(() => ({}))
+          return res.status(502).json({ erro: err.error?.message || 'Erro no RAG.' })
+        }
+
+        const groqData = await groqRes.json()
+        const resposta = groqData.choices[0].message.content
+
+        // identifica pets mencionados na resposta
+        const petsEncontrados = pets.filter(
+          pet => resposta.includes(pet.nome) || resposta.includes(`ID ${pet.id}`)
+        )
+
+        res.json({
+          resposta,
+          petsEncontrados,
+          totalMemoriasIndexadas: memories.length,
+          totalPets: pets.length,
+        })
+      } catch (e) {
+        res.status(500).json({ erro: e.message })
+      }
+    })
   })
 })
 

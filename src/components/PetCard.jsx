@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const EMOJI = { cachorro: '🐶', gato: '🐱', ave: '🐦', roedor: '🐭', outro: '🐾' }
 
 const STATUS_STYLE = {
@@ -13,7 +15,7 @@ const STATUS_LABEL = {
 }
 
 export default function PetCard({ pet, onEditar, onRemover }) {
-  const emoji = EMOJI[pet.especie?.toLowerCase()] ?? '🐾'
+  const emoji       = EMOJI[pet.especie?.toLowerCase()] ?? '🐾'
   const statusStyle = STATUS_STYLE[pet.status] ?? STATUS_STYLE.disponivel
   const statusLabel = STATUS_LABEL[pet.status] ?? pet.status
 
@@ -53,23 +55,32 @@ export default function PetCard({ pet, onEditar, onRemover }) {
       )}
 
       {(onEditar || onRemover) && (
-        <div className="flex gap-2 mt-auto pt-2">
-          {onEditar && (
-            <button
-              onClick={() => onEditar(pet)}
-              className="btn-secondary text-sm py-1.5 px-3 flex-1"
-            >
-              <i className="ti-pencil mr-1"></i>Editar
-            </button>
-          )}
-          {onRemover && (
-            <button
-              onClick={() => onRemover(pet.id)}
-              className="btn-danger flex-1"
-            >
-              <i className="ti-trash mr-1"></i>Remover
-            </button>
-          )}
+        <div className="flex flex-col gap-2 mt-auto pt-2">
+          <Link
+            to={`/memorias/${pet.id}`}
+            className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-semibold rounded-lg transition-colors"
+          >
+            <i className="ti-brain text-base" />
+            Memórias & Áudio
+          </Link>
+          <div className="flex gap-2">
+            {onEditar && (
+              <button
+                onClick={() => onEditar(pet)}
+                className="btn-secondary text-sm py-1.5 px-3 flex-1"
+              >
+                <i className="ti-pencil mr-1" />Editar
+              </button>
+            )}
+            {onRemover && (
+              <button
+                onClick={() => onRemover(pet.id)}
+                className="btn-danger flex-1"
+              >
+                <i className="ti-trash mr-1" />Remover
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

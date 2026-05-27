@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
 import { getStats } from '../services/petService'
 
 const cards = [
-  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Adoção com IA',     desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.' },
-  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',          desc: 'Explore todos os animais disponíveis para adoção.' },
-  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',     desc: 'Adicione um novo animal ao sistema de adoção.' },
-  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',      desc: 'Gerencie, edite e remova pets cadastrados.' },
+  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Adoção com IA',      desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.', cor: 'text-brand-500' },
+  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',           desc: 'Explore todos os animais disponíveis para adoção.', cor: 'text-brand-500' },
+  { to: '/rag',      icon: 'ti-search',   titulo: 'Busca Semântica RAG', desc: 'Faça perguntas em linguagem natural e encontre pets por comportamento, histórico e relatos dos voluntários.', cor: 'text-purple-500' },
+  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',      desc: 'Adicione um novo animal ao sistema de adoção.', cor: 'text-brand-500' },
+  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',       desc: 'Gerencie pets, edite dados e acesse as memórias registradas pelos voluntários.', cor: 'text-brand-500' },
 ]
 
 export default function Home() {
@@ -45,19 +46,38 @@ export default function Home() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {cards.map(({ to, icon, titulo, desc }) => (
+        {cards.map(({ to, icon, titulo, desc, cor }) => (
           <Link
             key={to}
             to={to}
             className="section-card hover:shadow-md transition-all hover:-translate-y-0.5 block"
           >
             <div className="flex items-center gap-3 mb-2">
-              <i className={`${icon} text-2xl text-brand-500`}></i>
+              <i className={`${icon} text-2xl ${cor}`}></i>
               <h2 className="text-lg font-semibold text-gray-800">{titulo}</h2>
             </div>
             <p className="text-gray-400 text-sm">{desc}</p>
           </Link>
         ))}
+      </div>
+
+      {/* Destaque RAG + Transcrição */}
+      <div className="mt-10 bg-gradient-to-r from-purple-50 to-brand-50 border border-purple-100 rounded-2xl p-6">
+        <h3 className="font-bold text-gray-800 text-lg mb-2 flex items-center gap-2">
+          🧠 Memórias Vivas dos Pets
+        </h3>
+        <p className="text-gray-600 text-sm mb-4">
+          Voluntários podem gravar <strong>áudios</strong> com observações sobre cada pet.
+          O sistema transcreve automaticamente com <strong>Groq Whisper</strong> e indexa
+          em um <strong>RAG</strong> — permitindo buscas semânticas como:
+        </p>
+        <div className="flex flex-wrap gap-2 text-sm">
+          {['"Quais pets não gostam de barulho?"', '"Qual cão é bom com crianças?"', '"Quais gatos são mais calmos?"'].map(ex => (
+            <span key={ex} className="bg-white border border-purple-100 rounded-full px-3 py-1 text-purple-700 font-medium">
+              {ex}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   )

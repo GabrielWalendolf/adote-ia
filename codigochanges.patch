@@ -1,0 +1,1367 @@
+diff --git a/.gitignore b/.gitignore
+new file mode 100644
+index 0000000..43883a4
+--- /dev/null
++++ b/.gitignore
+@@ -0,0 +1,4 @@
++dist/
++database.db
++*.local
++.env
+diff --git a/package-lock.json b/package-lock.json
+index b942599..2ba2042 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -9,6 +9,7 @@
+       "version": "1.0.0",
+       "dependencies": {
+         "express": "^5.2.1",
++        "multer": "^2.1.1",
+         "react": "^18.3.1",
+         "react-dom": "^18.3.1",
+         "react-router-dom": "^6.26.0",
+@@ -936,9 +937,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -953,9 +951,6 @@
+         "arm"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -970,9 +965,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -987,9 +979,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1004,9 +993,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1021,9 +1007,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1038,9 +1021,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1055,9 +1035,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1072,9 +1049,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1089,9 +1063,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1106,9 +1077,6 @@
+         "s390x"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1123,9 +1091,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1140,9 +1105,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1363,6 +1325,12 @@
+         "url": "https://github.com/sponsors/jonschlinkert"
+       }
+     },
++    "node_modules/append-field": {
++      "version": "1.0.0",
++      "resolved": "https://registry.npmjs.org/append-field/-/append-field-1.0.0.tgz",
++      "integrity": "sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw==",
++      "license": "MIT"
++    },
+     "node_modules/arg": {
+       "version": "5.0.2",
+       "resolved": "https://registry.npmjs.org/arg/-/arg-5.0.2.tgz",
+@@ -1568,6 +1536,23 @@
+         "ieee754": "^1.1.13"
+       }
+     },
++    "node_modules/buffer-from": {
++      "version": "1.1.2",
++      "resolved": "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz",
++      "integrity": "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==",
++      "license": "MIT"
++    },
++    "node_modules/busboy": {
++      "version": "1.6.0",
++      "resolved": "https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz",
++      "integrity": "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==",
++      "dependencies": {
++        "streamsearch": "^1.1.0"
++      },
++      "engines": {
++        "node": ">=10.16.0"
++      }
++    },
+     "node_modules/bytes": {
+       "version": "3.1.2",
+       "resolved": "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz",
+@@ -1694,6 +1679,21 @@
+         "node": ">= 6"
+       }
+     },
++    "node_modules/concat-stream": {
++      "version": "2.0.0",
++      "resolved": "https://registry.npmjs.org/concat-stream/-/concat-stream-2.0.0.tgz",
++      "integrity": "sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==",
++      "engines": [
++        "node >= 6.0"
++      ],
++      "license": "MIT",
++      "dependencies": {
++        "buffer-from": "^1.0.0",
++        "inherits": "^2.0.3",
++        "readable-stream": "^3.0.2",
++        "typedarray": "^0.0.6"
++      }
++    },
+     "node_modules/content-disposition": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/content-disposition/-/content-disposition-1.1.0.tgz",
+@@ -2696,6 +2696,68 @@
+       "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+       "license": "MIT"
+     },
++    "node_modules/multer": {
++      "version": "2.1.1",
++      "resolved": "https://registry.npmjs.org/multer/-/multer-2.1.1.tgz",
++      "integrity": "sha512-mo+QTzKlx8R7E5ylSXxWzGoXoZbOsRMpyitcht8By2KHvMbf3tjwosZ/Mu/XYU6UuJ3VZnODIrak5ZrPiPyB6A==",
++      "license": "MIT",
++      "dependencies": {
++        "append-field": "^1.0.0",
++        "busboy": "^1.6.0",
++        "concat-stream": "^2.0.0",
++        "type-is": "^1.6.18"
++      },
++      "engines": {
++        "node": ">= 10.16.0"
++      },
++      "funding": {
++        "type": "opencollective",
++        "url": "https://opencollective.com/express"
++      }
++    },
++    "node_modules/multer/node_modules/media-typer": {
++      "version": "0.3.0",
++      "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
++      "integrity": "sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==",
++      "license": "MIT",
++      "engines": {
++        "node": ">= 0.6"
++      }
++    },
++    "node_modules/multer/node_modules/mime-db": {
++      "version": "1.52.0",
++      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
++      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
++      "license": "MIT",
++      "engines": {
++        "node": ">= 0.6"
++      }
++    },
++    "node_modules/multer/node_modules/mime-types": {
++      "version": "2.1.35",
++      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
++      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
++      "license": "MIT",
++      "dependencies": {
++        "mime-db": "1.52.0"
++      },
++      "engines": {
++        "node": ">= 0.6"
++      }
++    },
++    "node_modules/multer/node_modules/type-is": {
++      "version": "1.6.18",
++      "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz",
++      "integrity": "sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==",
++      "license": "MIT",
++      "dependencies": {
++        "media-typer": "0.3.0",
++        "mime-types": "~2.1.24"
++      },
++      "engines": {
++        "node": ">= 0.6"
++      }
++    },
+     "node_modules/mz": {
+       "version": "2.7.0",
+       "resolved": "https://registry.npmjs.org/mz/-/mz-2.7.0.tgz",
+@@ -3737,6 +3799,14 @@
+         "node": ">= 0.8"
+       }
+     },
++    "node_modules/streamsearch": {
++      "version": "1.1.0",
++      "resolved": "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz",
++      "integrity": "sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==",
++      "engines": {
++        "node": ">=10.0.0"
++      }
++    },
+     "node_modules/string_decoder": {
+       "version": "1.3.0",
+       "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",
+@@ -3991,6 +4061,12 @@
+         "url": "https://opencollective.com/express"
+       }
+     },
++    "node_modules/typedarray": {
++      "version": "0.0.6",
++      "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
++      "integrity": "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==",
++      "license": "MIT"
++    },
+     "node_modules/undici": {
+       "version": "6.26.0",
+       "resolved": "https://registry.npmjs.org/undici/-/undici-6.26.0.tgz",
+diff --git a/package.json b/package.json
+index 3cf3980..8340d36 100644
+--- a/package.json
++++ b/package.json
+@@ -11,6 +11,7 @@
+   },
+   "dependencies": {
+     "express": "^5.2.1",
++    "multer": "^2.1.1",
+     "react": "^18.3.1",
+     "react-dom": "^18.3.1",
+     "react-router-dom": "^6.26.0",
+diff --git a/server.js b/server.js
+index 5f916f6..5deafc5 100644
+--- a/server.js
++++ b/server.js
+@@ -2,6 +2,7 @@ import express from 'express'
+ import sqlite3pkg from 'sqlite3'
+ import path from 'path'
+ import { fileURLToPath } from 'url'
++import multer from 'multer'
+ 
+ const { verbose } = sqlite3pkg
+ const sqlite3 = verbose()
+@@ -12,6 +13,11 @@ const __dirname  = path.dirname(__filename)
+ const app = express()
+ app.use(express.json())
+ 
++const upload = multer({
++  storage: multer.memoryStorage(),
++  limits: { fileSize: 25 * 1024 * 1024 },
++})
++
+ const db = new sqlite3.Database(path.join(__dirname, 'database.db'))
+ 
+ db.serialize(() => {
+@@ -33,6 +39,17 @@ db.serialize(() => {
+       created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
+     )
+   `)
++
++  db.run(`
++    CREATE TABLE IF NOT EXISTS pet_memories (
++      id         INTEGER PRIMARY KEY AUTOINCREMENT,
++      pet_id     INTEGER NOT NULL,
++      tipo       TEXT    DEFAULT 'texto',
++      conteudo   TEXT    NOT NULL,
++      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
++      FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
++    )
++  `)
+ })
+ 
+ // ─── Estatísticas ────────────────────────────────────────────────────────────
+@@ -130,6 +147,184 @@ app.delete('/api/pets/:id', (req, res) => {
+   })
+ })
+ 
++// ─── Memórias: listar ────────────────────────────────────────────────────────
++
++app.get('/api/pets/:id/memories', (req, res) => {
++  db.all(
++    'SELECT * FROM pet_memories WHERE pet_id = ? ORDER BY created_at DESC',
++    [req.params.id],
++    (err, rows) => {
++      if (err) return res.status(500).json({ erro: err.message })
++      res.json(rows)
++    }
++  )
++})
++
++// ─── Memórias: adicionar texto ───────────────────────────────────────────────
++
++app.post('/api/pets/:id/memories', (req, res) => {
++  const { conteudo, tipo = 'texto' } = req.body
++  if (!conteudo?.trim()) return res.status(400).json({ erro: 'Conteúdo obrigatório.' })
++
++  db.run(
++    'INSERT INTO pet_memories (pet_id, tipo, conteudo) VALUES (?, ?, ?)',
++    [req.params.id, tipo, conteudo.trim()],
++    function (err) {
++      if (err) return res.status(500).json({ erro: err.message })
++      db.get('SELECT * FROM pet_memories WHERE id = ?', [this.lastID], (e, row) => {
++        if (e) return res.status(500).json({ erro: e.message })
++        res.json(row)
++      })
++    }
++  )
++})
++
++// ─── Memórias: upload de áudio + transcrição Groq Whisper ────────────────────
++
++app.post('/api/pets/:id/audio', upload.single('audio'), async (req, res) => {
++  const { apiKey } = req.body
++  if (!apiKey)    return res.status(400).json({ erro: 'Chave API obrigatória.' })
++  if (!req.file)  return res.status(400).json({ erro: 'Arquivo de áudio obrigatório.' })
++
++  try {
++    const formData = new FormData()
++    const blob = new Blob([req.file.buffer], { type: req.file.mimetype || 'audio/webm' })
++    formData.append('file', blob, req.file.originalname || 'audio.webm')
++    formData.append('model', 'whisper-large-v3-turbo')
++    formData.append('language', 'pt')
++
++    const groqRes = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
++      method: 'POST',
++      headers: { Authorization: `Bearer ${apiKey}` },
++      body: formData,
++    })
++
++    if (!groqRes.ok) {
++      const err = await groqRes.json().catch(() => ({}))
++      return res.status(502).json({ erro: err.error?.message || 'Erro na transcrição.' })
++    }
++
++    const { text: transcricao } = await groqRes.json()
++
++    db.run(
++      'INSERT INTO pet_memories (pet_id, tipo, conteudo) VALUES (?, ?, ?)',
++      [req.params.id, 'audio', transcricao],
++      function (err) {
++        if (err) return res.status(500).json({ erro: err.message })
++        db.get('SELECT * FROM pet_memories WHERE id = ?', [this.lastID], (e, row) => {
++          if (e) return res.status(500).json({ erro: e.message })
++          res.json(row)
++        })
++      }
++    )
++  } catch (e) {
++    res.status(500).json({ erro: e.message })
++  }
++})
++
++// ─── Memórias: deletar ────────────────────────────────────────────────────────
++
++app.delete('/api/memories/:id', (req, res) => {
++  db.run('DELETE FROM pet_memories WHERE id = ?', [req.params.id], function (err) {
++    if (err)           return res.status(500).json({ erro: err.message })
++    if (!this.changes) return res.status(404).json({ erro: 'Memória não encontrada.' })
++    res.json({ ok: true })
++  })
++})
++
++// ─── RAG: busca semântica em linguagem natural ────────────────────────────────
++
++app.post('/api/rag/busca', async (req, res) => {
++  const { query, apiKey } = req.body
++  if (!query?.trim()) return res.status(400).json({ erro: 'Query obrigatória.' })
++  if (!apiKey)        return res.status(400).json({ erro: 'Chave API obrigatória.' })
++
++  db.all('SELECT * FROM pets ORDER BY nome', [], (err, pets) => {
++    if (err) return res.status(500).json({ erro: err.message })
++
++    db.all('SELECT * FROM pet_memories ORDER BY pet_id, created_at DESC', [], async (err2, memories) => {
++      if (err2) return res.status(500).json({ erro: err2.message })
++
++      // agrupa memórias por pet
++      const memoriasPorPet = {}
++      for (const m of memories) {
++        if (!memoriasPorPet[m.pet_id]) memoriasPorPet[m.pet_id] = []
++        memoriasPorPet[m.pet_id].push(m)
++      }
++
++      // monta contexto (pet info + memórias = base do RAG)
++      const contexto = pets.map(pet => {
++        const mems = memoriasPorPet[pet.id] || []
++        const memTexto = mems.length > 0
++          ? mems.map(m => `    [${m.tipo}] ${m.conteudo}`).join('\n')
++          : '    (nenhuma observação registrada)'
++        const info = [
++          pet.especie,
++          pet.raca,
++          pet.porte && `porte ${pet.porte}`,
++          pet.idade,
++          pet.sexo,
++          pet.vacinado ? 'vacinado' : null,
++          pet.castrado ? 'castrado' : null,
++          pet.descricao,
++        ].filter(Boolean).join(', ')
++        return `**${pet.nome}** (ID ${pet.id}) — ${info}\n  Observações dos voluntários:\n${memTexto}`
++      }).join('\n\n')
++
++      try {
++        const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
++          method: 'POST',
++          headers: {
++            'Content-Type': 'application/json',
++            Authorization: `Bearer ${apiKey}`,
++          },
++          body: JSON.stringify({
++            model: 'llama-3.3-70b-versatile',
++            messages: [
++              {
++                role: 'system',
++                content:
++                  'Você é um assistente de uma ONG de adoção de pets. ' +
++                  'Responda perguntas sobre os pets com base nas informações e nas memórias/observações registradas pelos voluntários. ' +
++                  'Seja específico: cite o nome e o ID de cada pet relevante. ' +
++                  'Sempre responda em português brasileiro.',
++              },
++              {
++                role: 'user',
++                content: `Informações dos pets:\n\n${contexto}\n\n---\n\nPergunta: ${query.trim()}`,
++              },
++            ],
++            temperature: 0.4,
++            max_tokens: 1024,
++          }),
++        })
++
++        if (!groqRes.ok) {
++          const err = await groqRes.json().catch(() => ({}))
++          return res.status(502).json({ erro: err.error?.message || 'Erro no RAG.' })
++        }
++
++        const groqData = await groqRes.json()
++        const resposta = groqData.choices[0].message.content
++
++        // identifica pets mencionados na resposta
++        const petsEncontrados = pets.filter(
++          pet => resposta.includes(pet.nome) || resposta.includes(`ID ${pet.id}`)
++        )
++
++        res.json({
++          resposta,
++          petsEncontrados,
++          totalMemoriasIndexadas: memories.length,
++          totalPets: pets.length,
++        })
++      } catch (e) {
++        res.status(500).json({ erro: e.message })
++      }
++    })
++  })
++})
++
+ // ─── Servir o React em produção ───────────────────────────────────────────────
+ 
+ app.use(express.static(path.join(__dirname, 'dist')))
+diff --git a/src/App.jsx b/src/App.jsx
+index 7d4895d..82ff4c1 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -6,6 +6,8 @@ import Adocao from './pages/Adocao.jsx'
+ import Pets from './pages/Pets.jsx'
+ import Cadastro from './pages/Cadastro.jsx'
+ import Admin from './pages/Admin.jsx'
++import Memorias from './pages/Memorias.jsx'
++import RAGBusca from './pages/RAGBusca.jsx'
+ 
+ export default function App() {
+   return (
+@@ -14,11 +16,13 @@ export default function App() {
+         <Navbar />
+         <main className="flex-1">
+           <Routes>
+-            <Route path="/" element={<Home />} />
+-            <Route path="/adocao" element={<Adocao />} />
+-            <Route path="/pets" element={<Pets />} />
+-            <Route path="/cadastro" element={<Cadastro />} />
+-            <Route path="/admin" element={<Admin />} />
++            <Route path="/"              element={<Home />} />
++            <Route path="/adocao"        element={<Adocao />} />
++            <Route path="/pets"          element={<Pets />} />
++            <Route path="/cadastro"      element={<Cadastro />} />
++            <Route path="/admin"         element={<Admin />} />
++            <Route path="/memorias/:id"  element={<Memorias />} />
++            <Route path="/rag"           element={<RAGBusca />} />
+           </Routes>
+         </main>
+         <Footer />
+diff --git a/src/components/GravadorAudio.jsx b/src/components/GravadorAudio.jsx
+new file mode 100644
+index 0000000..969dbdd
+--- /dev/null
++++ b/src/components/GravadorAudio.jsx
+@@ -0,0 +1,67 @@
++import { useState, useRef } from 'react'
++
++export default function GravadorAudio({ onGravacao, desabilitado }) {
++  const [gravando, setGravando] = useState(false)
++  const [segundos, setSegundos] = useState(0)
++  const recorderRef = useRef(null)
++  const chunksRef   = useRef([])
++  const timerRef    = useRef(null)
++
++  const iniciar = async () => {
++    try {
++      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
++      const recorder = new MediaRecorder(stream)
++      recorderRef.current = recorder
++      chunksRef.current = []
++
++      recorder.ondataavailable = e => {
++        if (e.data.size > 0) chunksRef.current.push(e.data)
++      }
++
++      recorder.onstop = () => {
++        stream.getTracks().forEach(t => t.stop())
++        const blob = new Blob(chunksRef.current, { type: 'audio/webm' })
++        onGravacao(blob)
++      }
++
++      recorder.start()
++      setGravando(true)
++      setSegundos(0)
++      timerRef.current = setInterval(() => setSegundos(s => s + 1), 1000)
++    } catch (e) {
++      alert('Não foi possível acessar o microfone: ' + e.message)
++    }
++  }
++
++  const parar = () => {
++    recorderRef.current?.stop()
++    clearInterval(timerRef.current)
++    setGravando(false)
++  }
++
++  const fmt = s =>
++    `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
++
++  if (gravando) {
++    return (
++      <button
++        onClick={parar}
++        className="flex items-center gap-2 px-4 py-2.5 bg-gray-800 text-white rounded-xl hover:bg-gray-700 transition-colors font-semibold"
++      >
++        <span className="w-3 h-3 rounded-sm bg-red-500 animate-pulse flex-shrink-0" />
++        Parar gravação ({fmt(segundos)})
++      </button>
++    )
++  }
++
++  return (
++    <button
++      onClick={iniciar}
++      disabled={desabilitado}
++      className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl transition-colors font-semibold"
++    >
++      <i className="ti-microphone text-base" />
++      Gravar Áudio
++    </button>
++  )
++}
+diff --git a/src/components/Navbar.jsx b/src/components/Navbar.jsx
+index cc9b6bf..9b06582 100644
+--- a/src/components/Navbar.jsx
++++ b/src/components/Navbar.jsx
+@@ -1,11 +1,12 @@
+ import { NavLink } from 'react-router-dom'
+ 
+ const links = [
+-  { to: '/',        label: 'Início',        icon: 'ti-home'     },
+-  { to: '/adocao',  label: 'Adoção IA',     icon: 'ti-sparkles' },
+-  { to: '/pets',    label: 'Pets',          icon: 'ti-paw'      },
+-  { to: '/cadastro',label: 'Cadastrar Pet', icon: 'ti-plus'     },
+-  { to: '/admin',   label: 'Admin',         icon: 'ti-settings' },
++  { to: '/',         label: 'Início',        icon: 'ti-home'        },
++  { to: '/adocao',   label: 'Adoção IA',     icon: 'ti-sparkles'    },
++  { to: '/pets',     label: 'Pets',          icon: 'ti-paw'         },
++  { to: '/rag',      label: 'Busca RAG',     icon: 'ti-search'      },
++  { to: '/cadastro', label: 'Cadastrar',     icon: 'ti-plus'        },
++  { to: '/admin',    label: 'Admin',         icon: 'ti-settings'    },
+ ]
+ 
+ export default function Navbar() {
+@@ -16,21 +17,21 @@ export default function Navbar() {
+           🐾 <span className="hidden sm:inline">Adoção Inteligente</span>
+         </NavLink>
+ 
+-        <nav className="flex items-center gap-1">
++        <nav className="flex items-center gap-0.5">
+           {links.map(({ to, label, icon }) => (
+             <NavLink
+               key={to}
+               to={to}
+               end={to === '/'}
+               className={({ isActive }) =>
+-                `flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ` +
++                `flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-colors ` +
+                 (isActive
+                   ? 'bg-brand-100 text-brand-600'
+                   : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700')
+               }
+             >
+-              <i className={`${icon} text-base`}></i>
+-              <span className="hidden sm:inline">{label}</span>
++              <i className={`${icon} text-base`} />
++              <span className="hidden md:inline">{label}</span>
+             </NavLink>
+           ))}
+         </nav>
+diff --git a/src/components/PetCard.jsx b/src/components/PetCard.jsx
+index 1687457..1fc1797 100644
+--- a/src/components/PetCard.jsx
++++ b/src/components/PetCard.jsx
+@@ -1,3 +1,5 @@
++import { Link } from 'react-router-dom'
++
+ const EMOJI = { cachorro: '🐶', gato: '🐱', ave: '🐦', roedor: '🐭', outro: '🐾' }
+ 
+ const STATUS_STYLE = {
+@@ -13,7 +15,7 @@ const STATUS_LABEL = {
+ }
+ 
+ export default function PetCard({ pet, onEditar, onRemover }) {
+-  const emoji = EMOJI[pet.especie?.toLowerCase()] ?? '🐾'
++  const emoji       = EMOJI[pet.especie?.toLowerCase()] ?? '🐾'
+   const statusStyle = STATUS_STYLE[pet.status] ?? STATUS_STYLE.disponivel
+   const statusLabel = STATUS_LABEL[pet.status] ?? pet.status
+ 
+@@ -53,23 +55,32 @@ export default function PetCard({ pet, onEditar, onRemover }) {
+       )}
+ 
+       {(onEditar || onRemover) && (
+-        <div className="flex gap-2 mt-auto pt-2">
+-          {onEditar && (
+-            <button
+-              onClick={() => onEditar(pet)}
+-              className="btn-secondary text-sm py-1.5 px-3 flex-1"
+-            >
+-              <i className="ti-pencil mr-1"></i>Editar
+-            </button>
+-          )}
+-          {onRemover && (
+-            <button
+-              onClick={() => onRemover(pet.id)}
+-              className="btn-danger flex-1"
+-            >
+-              <i className="ti-trash mr-1"></i>Remover
+-            </button>
+-          )}
++        <div className="flex flex-col gap-2 mt-auto pt-2">
++          <Link
++            to={`/memorias/${pet.id}`}
++            className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-semibold rounded-lg transition-colors"
++          >
++            <i className="ti-brain text-base" />
++            Memórias & Áudio
++          </Link>
++          <div className="flex gap-2">
++            {onEditar && (
++              <button
++                onClick={() => onEditar(pet)}
++                className="btn-secondary text-sm py-1.5 px-3 flex-1"
++              >
++                <i className="ti-pencil mr-1" />Editar
++              </button>
++            )}
++            {onRemover && (
++              <button
++                onClick={() => onRemover(pet.id)}
++                className="btn-danger flex-1"
++              >
++                <i className="ti-trash mr-1" />Remover
++              </button>
++            )}
++          </div>
+         </div>
+       )}
+     </div>
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index ca205c8..168fa7c 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom'
+ import { getStats } from '../services/petService'
+ 
+ const cards = [
+-  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Adoção com IA',     desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.' },
+-  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',          desc: 'Explore todos os animais disponíveis para adoção.' },
+-  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',     desc: 'Adicione um novo animal ao sistema de adoção.' },
+-  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',      desc: 'Gerencie, edite e remova pets cadastrados.' },
++  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Adoção com IA',      desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.', cor: 'text-brand-500' },
++  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',           desc: 'Explore todos os animais disponíveis para adoção.', cor: 'text-brand-500' },
++  { to: '/rag',      icon: 'ti-search',   titulo: 'Busca Semântica RAG', desc: 'Faça perguntas em linguagem natural e encontre pets por comportamento, histórico e relatos dos voluntários.', cor: 'text-purple-500' },
++  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',      desc: 'Adicione um novo animal ao sistema de adoção.', cor: 'text-brand-500' },
++  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',       desc: 'Gerencie pets, edite dados e acesse as memórias registradas pelos voluntários.', cor: 'text-brand-500' },
+ ]
+ 
+ export default function Home() {
+@@ -45,20 +46,39 @@ export default function Home() {
+       )}
+ 
+       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+-        {cards.map(({ to, icon, titulo, desc }) => (
++        {cards.map(({ to, icon, titulo, desc, cor }) => (
+           <Link
+             key={to}
+             to={to}
+             className="section-card hover:shadow-md transition-all hover:-translate-y-0.5 block"
+           >
+             <div className="flex items-center gap-3 mb-2">
+-              <i className={`${icon} text-2xl text-brand-500`}></i>
++              <i className={`${icon} text-2xl ${cor}`}></i>
+               <h2 className="text-lg font-semibold text-gray-800">{titulo}</h2>
+             </div>
+             <p className="text-gray-400 text-sm">{desc}</p>
+           </Link>
+         ))}
+       </div>
++
++      {/* Destaque RAG + Transcrição */}
++      <div className="mt-10 bg-gradient-to-r from-purple-50 to-brand-50 border border-purple-100 rounded-2xl p-6">
++        <h3 className="font-bold text-gray-800 text-lg mb-2 flex items-center gap-2">
++          🧠 Memórias Vivas dos Pets
++        </h3>
++        <p className="text-gray-600 text-sm mb-4">
++          Voluntários podem gravar <strong>áudios</strong> com observações sobre cada pet.
++          O sistema transcreve automaticamente com <strong>Groq Whisper</strong> e indexa
++          em um <strong>RAG</strong> — permitindo buscas semânticas como:
++        </p>
++        <div className="flex flex-wrap gap-2 text-sm">
++          {['"Quais pets não gostam de barulho?"', '"Qual cão é bom com crianças?"', '"Quais gatos são mais calmos?"'].map(ex => (
++            <span key={ex} className="bg-white border border-purple-100 rounded-full px-3 py-1 text-purple-700 font-medium">
++              {ex}
++            </span>
++          ))}
++        </div>
++      </div>
+     </div>
+   )
+ }
+diff --git a/src/pages/Memorias.jsx b/src/pages/Memorias.jsx
+new file mode 100644
+index 0000000..735694c
+--- /dev/null
++++ b/src/pages/Memorias.jsx
+@@ -0,0 +1,255 @@
++import { useState, useEffect } from 'react'
++import { useParams, Link } from 'react-router-dom'
++import GravadorAudio from '../components/GravadorAudio.jsx'
++import {
++  listarMemorias,
++  adicionarMemoria,
++  enviarAudio,
++  deletarMemoria,
++  getApiKey,
++  saveApiKey,
++} from '../services/ragService.js'
++
++const TIPO_ICON = { audio: 'ti-microphone', texto: 'ti-note', relato: 'ti-file-description' }
++const TIPO_COR  = {
++  audio:  'bg-purple-100 text-purple-700',
++  texto:  'bg-blue-100 text-blue-700',
++  relato: 'bg-green-100 text-green-700',
++}
++
++const EMOJI = { cachorro: '🐶', gato: '🐱', ave: '🐦', roedor: '🐭', outro: '🐾' }
++
++function Spinner({ className = '' }) {
++  return (
++    <span
++      className={`inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin ${className}`}
++    />
++  )
++}
++
++export default function Memorias() {
++  const { id } = useParams()
++  const [pet, setPet]               = useState(null)
++  const [memorias, setMemorias]     = useState([])
++  const [novaObs, setNovaObs]       = useState('')
++  const [apiKey, setApiKey_]        = useState(getApiKey)
++  const [carregando, setCarregando] = useState(true)
++  const [salvando, setSalvando]     = useState(false)
++  const [transcrevendo, setTranscrevendo] = useState(false)
++  const [erro, setErro]             = useState('')
++
++  const trocarKey = v => { setApiKey_(v); saveApiKey(v) }
++
++  useEffect(() => {
++    Promise.all([
++      fetch(`/api/pets/${id}`).then(r => r.json()),
++      listarMemorias(id),
++    ])
++      .then(([p, m]) => { setPet(p); setMemorias(m) })
++      .catch(() => setErro('Erro ao carregar dados do pet.'))
++      .finally(() => setCarregando(false))
++  }, [id])
++
++  const salvar = async () => {
++    if (!novaObs.trim()) return
++    setSalvando(true)
++    setErro('')
++    try {
++      const nova = await adicionarMemoria(id, novaObs.trim())
++      setMemorias(prev => [nova, ...prev])
++      setNovaObs('')
++    } catch (e) {
++      setErro(e.message)
++    } finally {
++      setSalvando(false)
++    }
++  }
++
++  const onGravacao = async blob => {
++    if (!apiKey) { setErro('Informe a chave API Groq para transcrever o áudio.'); return }
++    setTranscrevendo(true)
++    setErro('')
++    try {
++      const nova = await enviarAudio(id, blob, apiKey)
++      setMemorias(prev => [nova, ...prev])
++    } catch (e) {
++      setErro(e.message)
++    } finally {
++      setTranscrevendo(false)
++    }
++  }
++
++  const excluir = async memoriaId => {
++    if (!confirm('Excluir esta memória?')) return
++    try {
++      await deletarMemoria(memoriaId)
++      setMemorias(prev => prev.filter(m => m.id !== memoriaId))
++    } catch (e) {
++      setErro(e.message)
++    }
++  }
++
++  if (carregando) {
++    return (
++      <div className="flex justify-center items-center min-h-64">
++        <Spinner className="w-8 h-8 text-brand-500" />
++      </div>
++    )
++  }
++
++  if (!pet || pet.erro) {
++    return (
++      <div className="max-w-xl mx-auto px-4 py-16 text-center text-gray-500">
++        <p>Pet não encontrado.</p>
++        <Link to="/admin" className="btn-secondary mt-4 inline-block">← Voltar</Link>
++      </div>
++    )
++  }
++
++  const emoji = EMOJI[pet.especie?.toLowerCase()] ?? '🐾'
++
++  return (
++    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
++
++      {/* Cabeçalho */}
++      <div className="flex items-center gap-3">
++        <Link to="/admin" className="text-gray-400 hover:text-gray-600 transition-colors">
++          <i className="ti-arrow-left text-xl" />
++        </Link>
++        <span className="text-3xl">{emoji}</span>
++        <div>
++          <h1 className="text-2xl font-bold text-gray-800">
++            Memórias do {pet.nome}
++          </h1>
++          <p className="text-sm text-gray-400">
++            {pet.especie}
++            {pet.raca ? ` · ${pet.raca}` : ''}
++            {pet.porte ? ` · porte ${pet.porte}` : ''}
++          </p>
++        </div>
++        <span className="ml-auto">
++          <Link to="/rag" className="btn-secondary text-sm py-1.5 px-3 flex items-center gap-1.5">
++            <i className="ti-search" />
++            Busca RAG
++          </Link>
++        </span>
++      </div>
++
++      {/* Erro */}
++      {erro && (
++        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
++          {erro}
++        </div>
++      )}
++
++      {/* Chave API */}
++      <div className="section-card p-4 space-y-2">
++        <label className="label flex items-center gap-1">
++          <i className="ti-key text-gray-400" /> Chave API Groq
++          <span className="text-gray-400 font-normal">(necessária para transcrever áudio)</span>
++        </label>
++        <input
++          type="password"
++          value={apiKey}
++          onChange={e => trocarKey(e.target.value)}
++          placeholder="gsk_..."
++          className="input text-sm"
++        />
++      </div>
++
++      {/* Observação em texto */}
++      <div className="section-card p-5 space-y-3">
++        <h2 className="font-semibold text-gray-700 flex items-center gap-2">
++          <i className="ti-note text-blue-500" /> Nova Observação em Texto
++        </h2>
++        <textarea
++          value={novaObs}
++          onChange={e => setNovaObs(e.target.value)}
++          placeholder={`Ex: O ${pet.nome} fica ansioso quando ouve moto. Gosta de brincar com bolas...`}
++          rows={3}
++          className="input resize-none text-sm"
++        />
++        <button
++          onClick={salvar}
++          disabled={salvando || !novaObs.trim()}
++          className="btn-primary flex items-center gap-2"
++        >
++          {salvando ? <Spinner /> : <i className="ti-device-floppy" />}
++          {salvando ? 'Salvando...' : 'Salvar Observação'}
++        </button>
++      </div>
++
++      {/* Gravação de áudio */}
++      <div className="section-card p-5 space-y-3">
++        <h2 className="font-semibold text-gray-700 flex items-center gap-2">
++          <i className="ti-microphone text-purple-500" /> Nova Observação em Áudio
++        </h2>
++        <p className="text-sm text-gray-500">
++          Grave um relato de voz — ele será transcrito automaticamente pelo Groq Whisper e
++          indexado na memória do pet.
++        </p>
++
++        {transcrevendo ? (
++          <div className="flex items-center gap-2 text-purple-600">
++            <Spinner className="text-purple-500" />
++            <span className="text-sm">Transcrevendo com Groq Whisper...</span>
++          </div>
++        ) : (
++          <GravadorAudio onGravacao={onGravacao} desabilitado={!apiKey || transcrevendo} />
++        )}
++
++        {!apiKey && (
++          <p className="text-xs text-amber-600">
++            ⚠ Informe a chave API Groq acima para ativar a transcrição de voz.
++          </p>
++        )}
++      </div>
++
++      {/* Lista de memórias */}
++      <div className="section-card p-5">
++        <h2 className="font-semibold text-gray-700 mb-4 flex items-center justify-between">
++          <span className="flex items-center gap-2">
++            <i className="ti-brain text-brand-500" /> Memórias Indexadas
++          </span>
++          <span className="badge bg-brand-100 text-brand-600">{memorias.length}</span>
++        </h2>
++
++        {memorias.length === 0 ? (
++          <div className="text-center py-10 text-gray-400 space-y-1">
++            <i className="ti-brain text-5xl block opacity-20" />
++            <p className="text-sm">Nenhuma memória registrada ainda.</p>
++            <p className="text-xs">Adicione observações de texto ou grave um áudio acima.</p>
++          </div>
++        ) : (
++          <ul className="space-y-3">
++            {memorias.map(m => (
++              <li key={m.id} className="flex gap-3 p-3 bg-gray-50 rounded-xl group">
++                <span
++                  className={`flex items-center justify-center w-8 h-8 rounded-full text-sm flex-shrink-0 ${TIPO_COR[m.tipo] ?? 'bg-gray-100 text-gray-600'}`}
++                >
++                  <i className={TIPO_ICON[m.tipo] ?? 'ti-note'} />
++                </span>
++                <div className="flex-1 min-w-0">
++                  <p className="text-sm text-gray-700 leading-relaxed">{m.conteudo}</p>
++                  <p className="text-xs text-gray-400 mt-1">
++                    {m.tipo === 'audio' ? '🎙 Transcrição de áudio' : '📝 Observação em texto'}
++                    {' · '}
++                    {new Date(m.created_at).toLocaleString('pt-BR')}
++                  </p>
++                </div>
++                <button
++                  onClick={() => excluir(m.id)}
++                  className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all self-start mt-0.5"
++                  title="Excluir memória"
++                >
++                  <i className="ti-trash text-sm" />
++                </button>
++              </li>
++            ))}
++          </ul>
++        )}
++      </div>
++
++    </div>
++  )
++}
+diff --git a/src/pages/RAGBusca.jsx b/src/pages/RAGBusca.jsx
+new file mode 100644
+index 0000000..25c4f9e
+--- /dev/null
++++ b/src/pages/RAGBusca.jsx
+@@ -0,0 +1,200 @@
++import { useState } from 'react'
++import { Link } from 'react-router-dom'
++import { buscarRAG, getApiKey, saveApiKey } from '../services/ragService.js'
++
++const EXEMPLOS = [
++  'Quais pets não gostam de barulho?',
++  'Quais cães são bons com crianças?',
++  'Quais pets precisam de atenção especial?',
++  'Qual pet é mais agitado e brincalhão?',
++  'Quais gatos são calmos e independentes?',
++  'Quais pets têm medo de outros animais?',
++]
++
++const EMOJI = { cachorro: '🐶', gato: '🐱', ave: '🐦', roedor: '🐭', outro: '🐾' }
++
++function Spinner() {
++  return (
++    <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
++  )
++}
++
++export default function RAGBusca() {
++  const [query, setQuery]       = useState('')
++  const [apiKey, setApiKey_]    = useState(getApiKey)
++  const [resultado, setResultado] = useState(null)
++  const [buscando, setBuscando] = useState(false)
++  const [erro, setErro]         = useState('')
++
++  const trocarKey = v => { setApiKey_(v); saveApiKey(v) }
++
++  const buscar = async () => {
++    if (!query.trim()) return
++    if (!apiKey) { setErro('Informe a chave API Groq para usar o RAG.'); return }
++    setBuscando(true)
++    setErro('')
++    setResultado(null)
++    try {
++      const res = await buscarRAG(query.trim(), apiKey)
++      setResultado(res)
++    } catch (e) {
++      setErro(e.message)
++    } finally {
++      setBuscando(false)
++    }
++  }
++
++  return (
++    <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
++
++      {/* Header */}
++      <div>
++        <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
++          <i className="ti-search text-brand-500" /> Busca Semântica — RAG
++        </h1>
++        <p className="text-sm text-gray-500 mt-1">
++          Faça perguntas em linguagem natural sobre comportamentos, histórico e
++          características dos pets. O sistema busca nas memórias registradas pelos voluntários.
++        </p>
++      </div>
++
++      {/* Como funciona */}
++      <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 text-sm text-brand-700 space-y-1">
++        <p className="font-semibold">Como funciona o RAG?</p>
++        <p>
++          Cada pet tem uma "memória viva" formada por relatos e áudios dos voluntários.
++          O sistema recupera todas essas memórias e usa o modelo de linguagem da Groq
++          para encontrar os pets que melhor correspondem à sua pergunta.
++        </p>
++      </div>
++
++      {/* Chave API */}
++      <div className="section-card p-4 space-y-2">
++        <label className="label flex items-center gap-1">
++          <i className="ti-key text-gray-400" /> Chave API Groq
++        </label>
++        <input
++          type="password"
++          value={apiKey}
++          onChange={e => trocarKey(e.target.value)}
++          placeholder="gsk_..."
++          className="input text-sm"
++        />
++      </div>
++
++      {/* Campo de busca */}
++      <div className="section-card p-5 space-y-4">
++        <div className="flex gap-2">
++          <input
++            type="text"
++            value={query}
++            onChange={e => setQuery(e.target.value)}
++            onKeyDown={e => e.key === 'Enter' && buscar()}
++            placeholder="Ex: Quais pets não gostam de barulho?"
++            className="input flex-1"
++          />
++          <button
++            onClick={buscar}
++            disabled={buscando || !query.trim() || !apiKey}
++            className="btn-primary flex items-center gap-2 whitespace-nowrap"
++          >
++            {buscando ? <Spinner /> : <i className="ti-search" />}
++            {buscando ? 'Buscando...' : 'Buscar'}
++          </button>
++        </div>
++
++        <div>
++          <p className="text-xs text-gray-400 mb-2">Exemplos de perguntas:</p>
++          <div className="flex flex-wrap gap-2">
++            {EXEMPLOS.map(ex => (
++              <button
++                key={ex}
++                onClick={() => setQuery(ex)}
++                className="text-xs px-3 py-1 bg-gray-100 hover:bg-brand-100 hover:text-brand-600 rounded-full text-gray-600 transition-colors"
++              >
++                {ex}
++              </button>
++            ))}
++          </div>
++        </div>
++      </div>
++
++      {/* Erro */}
++      {erro && (
++        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
++          {erro}
++        </div>
++      )}
++
++      {/* Resultado */}
++      {resultado && (
++        <div className="space-y-4">
++
++          {/* Métricas */}
++          <div className="flex gap-4 text-sm text-gray-500 px-1">
++            <span><i className="ti-brain mr-1" />{resultado.totalMemoriasIndexadas} memórias indexadas</span>
++            <span>·</span>
++            <span><i className="ti-paw mr-1" />{resultado.totalPets} pets na base</span>
++          </div>
++
++          {/* Resposta do LLM */}
++          <div className="section-card p-5">
++            <h2 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
++              <i className="ti-sparkles text-brand-500" /> Resposta
++            </h2>
++            <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
++              {resultado.resposta}
++            </div>
++          </div>
++
++          {/* Pets identificados */}
++          {resultado.petsEncontrados?.length > 0 && (
++            <div className="section-card p-5">
++              <h2 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
++                <i className="ti-paw text-brand-500" /> Pets Relacionados
++              </h2>
++              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
++                {resultado.petsEncontrados.map(pet => (
++                  <Link
++                    key={pet.id}
++                    to={`/memorias/${pet.id}`}
++                    className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-brand-50 rounded-xl transition-colors group"
++                  >
++                    <span className="text-2xl flex-shrink-0">
++                      {EMOJI[pet.especie?.toLowerCase()] ?? '🐾'}
++                    </span>
++                    <div className="flex-1 min-w-0">
++                      <p className="font-semibold text-gray-800 group-hover:text-brand-600 truncate">
++                        {pet.nome}
++                      </p>
++                      <p className="text-xs text-gray-400">
++                        {pet.especie}{pet.porte ? ` · porte ${pet.porte}` : ''}
++                      </p>
++                    </div>
++                    <i className="ti-brain text-gray-300 group-hover:text-brand-400 flex-shrink-0" />
++                  </Link>
++                ))}
++              </div>
++            </div>
++          )}
++
++        </div>
++      )}
++
++      {/* Estado inicial vazio */}
++      {!resultado && !buscando && !erro && (
++        <div className="text-center py-16 text-gray-400 space-y-2">
++          <i className="ti-brain text-6xl block opacity-20" />
++          <p>Digite uma pergunta sobre os pets para iniciar a busca.</p>
++          <p className="text-sm">
++            O RAG pesquisa nas memórias e observações registradas pelos voluntários.
++          </p>
++          <Link to="/admin" className="btn-secondary text-sm inline-flex items-center gap-1 mt-2">
++            <i className="ti-paw" /> Ver pets no Admin
++          </Link>
++        </div>
++      )}
++
++    </div>
++  )
++}
+diff --git a/src/services/ragService.js b/src/services/ragService.js
+new file mode 100644
+index 0000000..4385e4b
+--- /dev/null
++++ b/src/services/ragService.js
+@@ -0,0 +1,63 @@
++const CHAVE_LS = 'groq_api_key'
++
++export function getApiKey() {
++  return localStorage.getItem(CHAVE_LS) || ''
++}
++
++export function saveApiKey(key) {
++  localStorage.setItem(CHAVE_LS, key)
++}
++
++export async function listarMemorias(petId) {
++  const res = await fetch(`/api/pets/${petId}/memories`)
++  if (!res.ok) throw new Error('Erro ao carregar memórias.')
++  return res.json()
++}
++
++export async function adicionarMemoria(petId, conteudo, tipo = 'texto') {
++  const res = await fetch(`/api/pets/${petId}/memories`, {
++    method: 'POST',
++    headers: { 'Content-Type': 'application/json' },
++    body: JSON.stringify({ conteudo, tipo }),
++  })
++  if (!res.ok) {
++    const err = await res.json()
++    throw new Error(err.erro || 'Erro ao salvar memória.')
++  }
++  return res.json()
++}
++
++export async function enviarAudio(petId, audioBlob, apiKey) {
++  const formData = new FormData()
++  formData.append('audio', audioBlob, 'gravacao.webm')
++  formData.append('apiKey', apiKey)
++
++  const res = await fetch(`/api/pets/${petId}/audio`, {
++    method: 'POST',
++    body: formData,
++  })
++  if (!res.ok) {
++    const err = await res.json()
++    throw new Error(err.erro || 'Erro na transcrição.')
++  }
++  return res.json()
++}
++
++export async function deletarMemoria(memoriaId) {
++  const res = await fetch(`/api/memories/${memoriaId}`, { method: 'DELETE' })
++  if (!res.ok) throw new Error('Erro ao deletar memória.')
++  return res.json()
++}
++
++export async function buscarRAG(query, apiKey) {
++  const res = await fetch('/api/rag/busca', {
++    method: 'POST',
++    headers: { 'Content-Type': 'application/json' },
++    body: JSON.stringify({ query, apiKey }),
++  })
++  if (!res.ok) {
++    const err = await res.json()
++    throw new Error(err.erro || 'Erro na busca RAG.')
++  }
++  return res.json()
++}
