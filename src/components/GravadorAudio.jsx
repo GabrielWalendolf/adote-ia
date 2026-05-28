@@ -60,7 +60,7 @@ export default function GravadorAudio({ onGravacao, desabilitado }) {
       disabled={desabilitado}
       className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 hover:bg-purple-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl transition-colors font-semibold"
     >
-      <i className="ti-microphone text-base" />
+      <i className="ti ti-microphone text-base" />
       Gravar Áudio
     </button>
   )

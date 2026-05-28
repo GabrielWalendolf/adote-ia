@@ -68,7 +68,7 @@ export default function Adocao() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          <i className="ti-sparkles mr-2 text-brand-500"></i>Adoção com IA
+          <i className="ti ti-sparkles mr-2 text-brand-500"></i>Adoção com IA
         </h1>
         <p className="text-gray-400 text-sm">
           Preencha seu perfil e a IA vai recomendar os pets do nosso banco que combinam com você.
@@ -183,14 +183,14 @@ export default function Adocao() {
       <button onClick={analisar} disabled={carregando} className="btn-primary w-full mb-8 py-3 text-base">
         {carregando
           ? <><span className="spinner mr-2"></span>Analisando com IA...</>
-          : <><i className="ti-sparkles mr-2"></i>Encontrar meu pet ideal</>
+          : <><i className="ti ti-sparkles mr-2"></i>Encontrar meu pet ideal</>
         }
       </button>
 
       {resultado && (
         <div className="section-card">
           <p className="section-label mb-3">
-            <i className="ti-sparkles mr-1 text-brand-500"></i>Recomendação da IA
+            <i className="ti ti-sparkles mr-1 text-brand-500"></i>Recomendação da IA
           </p>
           <div className="text-gray-700 whitespace-pre-wrap text-sm leading-relaxed">
             {resultado}

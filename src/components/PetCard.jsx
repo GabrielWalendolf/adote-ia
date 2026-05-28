@@ -60,7 +60,7 @@ export default function PetCard({ pet, onEditar, onRemover }) {
             to={`/memorias/${pet.id}`}
             className="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-sm font-semibold rounded-lg transition-colors"
           >
-            <i className="ti-brain text-base" />
+            <i className="ti ti-brain text-base" />
             Memórias & Áudio
           </Link>
           <div className="flex gap-2">
@@ -69,7 +69,7 @@ export default function PetCard({ pet, onEditar, onRemover }) {
                 onClick={() => onEditar(pet)}
                 className="btn-secondary text-sm py-1.5 px-3 flex-1"
               >
-                <i className="ti-pencil mr-1" />Editar
+                <i className="ti ti-pencil mr-1" />Editar
               </button>
             )}
             {onRemover && (
@@ -77,7 +77,7 @@ export default function PetCard({ pet, onEditar, onRemover }) {
                 onClick={() => onRemover(pet.id)}
                 className="btn-danger flex-1"
               >
-                <i className="ti-trash mr-1" />Remover
+                <i className="ti ti-trash mr-1" />Remover
               </button>
             )}
           </div>

@@ -30,7 +30,7 @@ export default function Pets() {
 
       <div className="section-card mb-6 flex flex-col gap-4">
         <div className="relative">
-          <i className="ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <i className="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
           <input
             className="input pl-9"
             placeholder="Buscar por nome ou raça..."

@@ -50,7 +50,7 @@ export default function RAGBusca() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <i className="ti-search text-brand-500" /> Busca Semântica — RAG
+          <i className="ti ti-search text-brand-500" /> Busca Semântica — RAG
         </h1>
         <p className="text-sm text-gray-500 mt-1">
           Faça perguntas em linguagem natural sobre comportamentos, histórico e
@@ -71,7 +71,7 @@ export default function RAGBusca() {
       {/* Chave API */}
       <div className="section-card p-4 space-y-2">
         <label className="label flex items-center gap-1">
-          <i className="ti-key text-gray-400" /> Chave API Groq
+          <i className="ti ti-key text-gray-400" /> Chave API Groq
         </label>
         <input
           type="password"
@@ -98,7 +98,7 @@ export default function RAGBusca() {
             disabled={buscando || !query.trim() || !apiKey}
             className="btn-primary flex items-center gap-2 whitespace-nowrap"
           >
-            {buscando ? <Spinner /> : <i className="ti-search" />}
+            {buscando ? <Spinner /> : <i className="ti ti-search" />}
             {buscando ? 'Buscando...' : 'Buscar'}
           </button>
         </div>
@@ -132,15 +132,15 @@ export default function RAGBusca() {
 
           {/* Métricas */}
           <div className="flex gap-4 text-sm text-gray-500 px-1">
-            <span><i className="ti-brain mr-1" />{resultado.totalMemoriasIndexadas} memórias indexadas</span>
+            <span><i className="ti ti-brain mr-1" />{resultado.totalMemoriasIndexadas} memórias indexadas</span>
             <span>·</span>
-            <span><i className="ti-paw mr-1" />{resultado.totalPets} pets na base</span>
+            <span><i className="ti ti-paw mr-1" />{resultado.totalPets} pets na base</span>
           </div>
 
           {/* Resposta do LLM */}
           <div className="section-card p-5">
             <h2 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-              <i className="ti-sparkles text-brand-500" /> Resposta
+              <i className="ti ti-sparkles text-brand-500" /> Resposta
             </h2>
             <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
               {resultado.resposta}
@@ -151,7 +151,7 @@ export default function RAGBusca() {
           {resultado.petsEncontrados?.length > 0 && (
             <div className="section-card p-5">
               <h2 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                <i className="ti-paw text-brand-500" /> Pets Relacionados
+                <i className="ti ti-paw text-brand-500" /> Pets Relacionados
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {resultado.petsEncontrados.map(pet => (
@@ -171,7 +171,7 @@ export default function RAGBusca() {
                         {pet.especie}{pet.porte ? ` · porte ${pet.porte}` : ''}
                       </p>
                     </div>
-                    <i className="ti-brain text-gray-300 group-hover:text-brand-400 flex-shrink-0" />
+                    <i className="ti ti-brain text-gray-300 group-hover:text-brand-400 flex-shrink-0" />
                   </Link>
                 ))}
               </div>
@@ -184,13 +184,13 @@ export default function RAGBusca() {
       {/* Estado inicial vazio */}
       {!resultado && !buscando && !erro && (
         <div className="text-center py-16 text-gray-400 space-y-2">
-          <i className="ti-brain text-6xl block opacity-20" />
+          <i className="ti ti-brain text-6xl block opacity-20" />
           <p>Digite uma pergunta sobre os pets para iniciar a busca.</p>
           <p className="text-sm">
             O RAG pesquisa nas memórias e observações registradas pelos voluntários.
           </p>
           <Link to="/admin" className="btn-secondary text-sm inline-flex items-center gap-1 mt-2">
-            <i className="ti-paw" /> Ver pets no Admin
+            <i className="ti ti-paw" /> Ver pets no Admin
           </Link>
         </div>
       )}

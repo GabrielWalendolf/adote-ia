@@ -53,7 +53,7 @@ export default function Home() {
             className="section-card hover:shadow-md transition-all hover:-translate-y-0.5 block"
           >
             <div className="flex items-center gap-3 mb-2">
-              <i className={`${icon} text-2xl ${cor}`}></i>
+              <i className={`ti ${icon} text-2xl ${cor}`}></i>
               <h2 className="text-lg font-semibold text-gray-800">{titulo}</h2>
             </div>
             <p className="text-gray-400 text-sm">{desc}</p>

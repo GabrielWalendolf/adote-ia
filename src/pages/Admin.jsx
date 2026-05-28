@@ -69,7 +69,7 @@ export default function Admin() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        <i className="ti-settings mr-2 text-brand-500"></i>Painel Admin
+        <i className="ti ti-settings mr-2 text-brand-500"></i>Painel Admin
       </h1>
 
       {stats && (
@@ -95,7 +95,7 @@ export default function Admin() {
 
       <div className="section-card mb-6">
         <div className="relative">
-          <i className="ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+          <i className="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
           <input
             className="input pl-9"
             placeholder="Buscar pet por nome ou raça..."
@@ -128,7 +128,7 @@ export default function Admin() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-800">Editar — {editando.nome}</h2>
               <button onClick={() => setEditando(null)} className="text-gray-400 hover:text-gray-600 text-xl">
-                <i className="ti-x"></i>
+                <i className="ti ti-x"></i>
               </button>
             </div>
 

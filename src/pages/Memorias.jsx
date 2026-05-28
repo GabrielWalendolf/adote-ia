@@ -114,7 +114,7 @@ export default function Memorias() {
       {/* Cabeçalho */}
       <div className="flex items-center gap-3">
         <Link to="/admin" className="text-gray-400 hover:text-gray-600 transition-colors">
-          <i className="ti-arrow-left text-xl" />
+          <i className="ti ti-arrow-left text-xl" />
         </Link>
         <span className="text-3xl">{emoji}</span>
         <div>
@@ -129,7 +129,7 @@ export default function Memorias() {
         </div>
         <span className="ml-auto">
           <Link to="/rag" className="btn-secondary text-sm py-1.5 px-3 flex items-center gap-1.5">
-            <i className="ti-search" />
+            <i className="ti ti-search" />
             Busca RAG
           </Link>
         </span>
@@ -145,7 +145,7 @@ export default function Memorias() {
       {/* Chave API */}
       <div className="section-card p-4 space-y-2">
         <label className="label flex items-center gap-1">
-          <i className="ti-key text-gray-400" /> Chave API Groq
+          <i className="ti ti-key text-gray-400" /> Chave API Groq
           <span className="text-gray-400 font-normal">(necessária para transcrever áudio)</span>
         </label>
         <input
@@ -160,7 +160,7 @@ export default function Memorias() {
       {/* Observação em texto */}
       <div className="section-card p-5 space-y-3">
         <h2 className="font-semibold text-gray-700 flex items-center gap-2">
-          <i className="ti-note text-blue-500" /> Nova Observação em Texto
+          <i className="ti ti-note text-blue-500" /> Nova Observação em Texto
         </h2>
         <textarea
           value={novaObs}
@@ -174,7 +174,7 @@ export default function Memorias() {
           disabled={salvando || !novaObs.trim()}
           className="btn-primary flex items-center gap-2"
         >
-          {salvando ? <Spinner /> : <i className="ti-device-floppy" />}
+          {salvando ? <Spinner /> : <i className="ti ti-device-floppy" />}
           {salvando ? 'Salvando...' : 'Salvar Observação'}
         </button>
       </div>
@@ -182,7 +182,7 @@ export default function Memorias() {
       {/* Gravação de áudio */}
       <div className="section-card p-5 space-y-3">
         <h2 className="font-semibold text-gray-700 flex items-center gap-2">
-          <i className="ti-microphone text-purple-500" /> Nova Observação em Áudio
+          <i className="ti ti-microphone text-purple-500" /> Nova Observação em Áudio
         </h2>
         <p className="text-sm text-gray-500">
           Grave um relato de voz — ele será transcrito automaticamente pelo Groq Whisper e
@@ -209,14 +209,14 @@ export default function Memorias() {
       <div className="section-card p-5">
         <h2 className="font-semibold text-gray-700 mb-4 flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <i className="ti-brain text-brand-500" /> Memórias Indexadas
+            <i className="ti ti-brain text-brand-500" /> Memórias Indexadas
           </span>
           <span className="badge bg-brand-100 text-brand-600">{memorias.length}</span>
         </h2>
 
         {memorias.length === 0 ? (
           <div className="text-center py-10 text-gray-400 space-y-1">
-            <i className="ti-brain text-5xl block opacity-20" />
+            <i className="ti ti-brain text-5xl block opacity-20" />
             <p className="text-sm">Nenhuma memória registrada ainda.</p>
             <p className="text-xs">Adicione observações de texto ou grave um áudio acima.</p>
           </div>
@@ -227,7 +227,7 @@ export default function Memorias() {
                 <span
                   className={`flex items-center justify-center w-8 h-8 rounded-full text-sm flex-shrink-0 ${TIPO_COR[m.tipo] ?? 'bg-gray-100 text-gray-600'}`}
                 >
-                  <i className={TIPO_ICON[m.tipo] ?? 'ti-note'} />
+                  <i className={`ti ${TIPO_ICON[m.tipo] ?? 'ti-note'}`} />
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-gray-700 leading-relaxed">{m.conteudo}</p>
@@ -242,7 +242,7 @@ export default function Memorias() {
                   className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-500 transition-all self-start mt-0.5"
                   title="Excluir memória"
                 >
-                  <i className="ti-trash text-sm" />
+                  <i className="ti ti-trash text-sm" />
                 </button>
               </li>
             ))}

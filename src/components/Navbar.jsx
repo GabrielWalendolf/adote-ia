@@ -30,7 +30,7 @@ export default function Navbar() {
                   : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700')
               }
             >
-              <i className={`${icon} text-base`} />
+              <i className={`ti ${icon} text-base`} />
               <span className="hidden md:inline">{label}</span>
             </NavLink>
           ))}

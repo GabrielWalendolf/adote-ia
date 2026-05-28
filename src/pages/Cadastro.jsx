@@ -50,7 +50,7 @@ export default function Cadastro() {
   return (
     <div className="max-w-xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        <i className="ti-plus mr-2 text-brand-500"></i>Cadastrar Pet
+        <i className="ti ti-plus mr-2 text-brand-500"></i>Cadastrar Pet
       </h1>
 
       <div className="section-card flex flex-col gap-4">
