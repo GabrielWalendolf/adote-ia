@@ -2,3 +2,6 @@ dist/
 database.db
 *.local
 .env
+/node_modules
+*.log
+database.db
