@@ -1,4 +1,8 @@
-export function Input({ label, id, ...props }) {
+import { useId } from 'react'
+
+export function Input({ label, ...props }) {
+  const uid = useId()
+  const id = props.id ?? uid
   return (
     <div>
       {label && <label className="label" htmlFor={id}>{label}</label>}
@@ -7,7 +11,9 @@ export function Input({ label, id, ...props }) {
   )
 }
 
-export function Select({ label, id, children, ...props }) {
+export function Select({ label, children, ...props }) {
+  const uid = useId()
+  const id = props.id ?? uid
   return (
     <div>
       {label && <label className="label" htmlFor={id}>{label}</label>}
@@ -18,7 +24,9 @@ export function Select({ label, id, children, ...props }) {
   )
 }
 
-export function Textarea({ label, id, ...props }) {
+export function Textarea({ label, ...props }) {
+  const uid = useId()
+  const id = props.id ?? uid
   return (
     <div>
       {label && <label className="label" htmlFor={id}>{label}</label>}
@@ -28,9 +36,11 @@ export function Textarea({ label, id, ...props }) {
 }
 
 export function CheckItem({ label, checked, onChange }) {
+  const id = useId()
   return (
-    <label className="check-card">
+    <label className="check-card" htmlFor={id}>
       <input
+        id={id}
         type="checkbox"
         checked={checked}
         onChange={e => onChange(e.target.checked)}

@@ -36,9 +36,15 @@ db.serialize(() => {
       vermifugado INTEGER DEFAULT 0,
       descricao   TEXT,
       contato     TEXT,
+      adotado_por TEXT,
+      data_adocao TEXT,
       created_at  DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `)
+
+  // Migrations for existing databases
+  db.run(`ALTER TABLE pets ADD COLUMN adotado_por TEXT`, () => {})
+  db.run(`ALTER TABLE pets ADD COLUMN data_adocao TEXT`, () => {})
 
   db.run(`
     CREATE TABLE IF NOT EXISTS pet_memories (
@@ -119,16 +125,25 @@ app.put('/api/pets/:id', (req, res) => {
   const {
     nome, especie, raca, idade, sexo, porte, status,
     vacinado, castrado, vermifugado, descricao, contato,
+    adotado_por, data_adocao,
   } = req.body
+
+  const dataAdocaoFinal = status === 'adotado'
+    ? (data_adocao || new Date().toISOString().split('T')[0])
+    : null
 
   db.run(
     `UPDATE pets
      SET nome=?, especie=?, raca=?, idade=?, sexo=?, porte=?, status=?,
-         vacinado=?, castrado=?, vermifugado=?, descricao=?, contato=?
+         vacinado=?, castrado=?, vermifugado=?, descricao=?, contato=?,
+         adotado_por=?, data_adocao=?
      WHERE id=?`,
     [nome, especie, raca, idade, sexo, porte, status,
      vacinado ? 1 : 0, castrado ? 1 : 0, vermifugado ? 1 : 0,
-     descricao, contato, req.params.id],
+     descricao, contato,
+     status === 'adotado' ? (adotado_por || null) : null,
+     dataAdocaoFinal,
+     req.params.id],
     function (err) {
       if (err)           return res.status(500).json({ erro: err.message })
       if (!this.changes) return res.status(404).json({ erro: 'Pet não encontrado' })

@@ -54,6 +54,14 @@ export default function PetCard({ pet, onEditar, onRemover }) {
         <p className="text-sm text-gray-500 line-clamp-2">{pet.descricao}</p>
       )}
 
+      {pet.status === 'adotado' && pet.data_adocao && (
+        <div className="text-xs text-gray-400 flex items-center gap-1">
+          <i className="ti ti-heart text-brand-400" aria-hidden="true" />
+          Adotado em {new Date(pet.data_adocao + 'T00:00:00').toLocaleDateString('pt-BR')}
+          {pet.adotado_por && <span>· por {pet.adotado_por}</span>}
+        </div>
+      )}
+
       {(onEditar || onRemover) && (
         <div className="flex flex-col gap-2 mt-auto pt-2">
           <Link
