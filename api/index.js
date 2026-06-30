@@ -1,13 +1,8 @@
 import express from 'express'
 import pkg from 'pg'
-import path from 'path'
-import { fileURLToPath } from 'url'
 import multer from 'multer'
 
 const { Pool } = pkg
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname  = path.dirname(__filename)
 
 const app = express()
 app.use(express.json())
@@ -19,7 +14,7 @@ const upload = multer({
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('localhost') ? false : { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false },
 })
 
 // ─── Estatísticas ─────────────────────────────────────────────────────────────
@@ -271,16 +266,4 @@ app.post('/api/rag/busca', async (req, res) => {
   } catch (e) { res.status(500).json({ erro: e.message }) }
 })
 
-// ─── Servir o React em produção ───────────────────────────────────────────────
-
-app.use(express.static(path.join(__dirname, 'dist')))
-
-app.get('/{*path}', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
-
-// ─── Iniciar servidor ─────────────────────────────────────────────────────────
-
-app.listen(3000, () => {
-  console.log('Servidor rodando em http://localhost:3000')
-})
+export default app
