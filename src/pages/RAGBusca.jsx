@@ -70,15 +70,17 @@ export default function RAGBusca() {
 
       {/* Chave API */}
       <div className="section-card p-4 space-y-2">
-        <label className="label flex items-center gap-1">
+        <label className="label flex items-center gap-1" htmlFor="rag-api-key">
           <i className="ti ti-key text-gray-400" /> Chave API Groq
         </label>
         <input
+          id="rag-api-key"
           type="password"
           value={apiKey}
           onChange={e => trocarKey(e.target.value)}
           placeholder="gsk_..."
           className="input text-sm"
+          aria-label="Chave API Groq"
         />
       </div>
 
@@ -92,6 +94,7 @@ export default function RAGBusca() {
             onKeyDown={e => e.key === 'Enter' && buscar()}
             placeholder="Ex: Quais pets não gostam de barulho?"
             className="input flex-1"
+            aria-label="Pergunta sobre os pets"
           />
           <button
             onClick={buscar}
@@ -102,6 +105,12 @@ export default function RAGBusca() {
             {buscando ? 'Buscando...' : 'Buscar'}
           </button>
         </div>
+
+        {buscando && (
+          <p className="text-sm text-gray-400 animate-pulse text-center">
+            Consultando memórias dos pets via Groq... pode levar alguns segundos.
+          </p>
+        )}
 
         <div>
           <p className="text-xs text-gray-400 mb-2">Exemplos de perguntas:</p>
@@ -121,8 +130,8 @@ export default function RAGBusca() {
 
       {/* Erro */}
       {erro && (
-        <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
-          {erro}
+        <div role="alert" className="bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm flex items-center gap-2">
+          <i className="ti ti-alert-circle flex-shrink-0" aria-hidden="true" />{erro}
         </div>
       )}
 

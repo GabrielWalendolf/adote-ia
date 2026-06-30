@@ -6,7 +6,7 @@ import { Input, Select, Textarea, CheckItem } from '../components/FormField.jsx'
 const vazio = {
   nome: '', especie: '', raca: '', idade: '', sexo: '', porte: 'medio',
   status: 'disponivel', vacinado: false, castrado: false, vermifugado: false,
-  descricao: '', contato: '',
+  descricao: '', contato: '', adotado_por: '',
 }
 
 export default function Cadastro() {
@@ -102,6 +102,15 @@ export default function Cadastro() {
         <p className="section-label mt-2">Mais informações</p>
         <Textarea label="Descrição" value={form.descricao} onChange={e => set('descricao', e.target.value)} placeholder="Conte um pouco sobre o pet..." />
         <Input label="Contato" value={form.contato} onChange={e => set('contato', e.target.value)} placeholder="Telefone ou e-mail" />
+
+        {form.status === 'adotado' && (
+          <Input
+            label="Adotado por (nome do adotante)"
+            placeholder="Ex: João Silva"
+            value={form.adotado_por}
+            onChange={e => set('adotado_por', e.target.value)}
+          />
+        )}
 
         {erro && (
           <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{erro}</div>

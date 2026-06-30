@@ -7,7 +7,7 @@ import { getStats } from '../services/petService'
 const vazio = {
   nome: '', especie: '', raca: '', idade: '', sexo: '', porte: 'medio',
   status: 'disponivel', vacinado: false, castrado: false, vermifugado: false,
-  descricao: '', contato: '',
+  descricao: '', contato: '', adotado_por: '',
 }
 
 export default function Admin() {
@@ -40,6 +40,7 @@ export default function Admin() {
       vermifugado: !!pet.vermifugado,
       descricao:   pet.descricao   || '',
       contato:     pet.contato     || '',
+      adotado_por: pet.adotado_por || '',
     })
     setErro('')
   }
@@ -101,6 +102,7 @@ export default function Admin() {
             placeholder="Buscar pet por nome ou raça..."
             value={busca}
             onChange={e => setBusca(e.target.value)}
+            aria-label="Buscar pet por nome ou raça"
           />
         </div>
       </div>
@@ -127,7 +129,7 @@ export default function Admin() {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold text-gray-800">Editar — {editando.nome}</h2>
-              <button onClick={() => setEditando(null)} className="text-gray-400 hover:text-gray-600 text-xl">
+              <button onClick={() => setEditando(null)} aria-label="Fechar" className="text-gray-400 hover:text-gray-600 text-xl">
                 <i className="ti ti-x"></i>
               </button>
             </div>
@@ -177,6 +179,15 @@ export default function Admin() {
 
               <Textarea label="Descrição" value={form.descricao} onChange={e => set('descricao', e.target.value)} />
               <Input label="Contato" value={form.contato} onChange={e => set('contato', e.target.value)} />
+
+              {form.status === 'adotado' && (
+                <Input
+                  label="Adotado por (nome do adotante)"
+                  placeholder="Ex: João Silva"
+                  value={form.adotado_por}
+                  onChange={e => set('adotado_por', e.target.value)}
+                />
+              )}
 
               {erro && (
                 <div className="bg-red-50 text-red-600 text-sm px-4 py-3 rounded-xl">{erro}</div>
