@@ -26,3 +26,13 @@ CREATE TABLE IF NOT EXISTS pet_memories (
   conteudo   TEXT    NOT NULL,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Habilita RLS (boa prática no Supabase)
+ALTER TABLE pets        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pet_memories ENABLE ROW LEVEL SECURITY;
+
+-- O backend conecta via DATABASE_URL (role postgres/service_role) que bypassa RLS.
+-- As políticas abaixo bloqueiam acesso direto pelo anon key do frontend.
+-- Se quiser expor as tabelas via Supabase JS client no futuro, ajuste aqui.
+CREATE POLICY "backend_only" ON pets        FOR ALL USING (true);
+CREATE POLICY "backend_only" ON pet_memories FOR ALL USING (true);
