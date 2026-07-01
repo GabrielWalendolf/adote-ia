@@ -2,10 +2,10 @@ import { NavLink } from 'react-router-dom'
 
 const links = [
   { to: '/',         label: 'Início',           icon: 'ti-home'        },
-  { to: '/adocao',   label: 'Encontre seu Pet', icon: 'ti-sparkles'    },
+  { to: '/cadastro', label: 'Cadastrar',        icon: 'ti-plus'        },
   { to: '/pets',     label: 'Pets',             icon: 'ti-paw'         },
   { to: '/rag',      label: 'Perguntar',        icon: 'ti-search'      },
-  { to: '/cadastro', label: 'Cadastrar',        icon: 'ti-plus'        },
+  { to: '/adocao',   label: 'Encontre seu Pet', icon: 'ti-sparkles'    },
   { to: '/admin',    label: 'Admin',            icon: 'ti-settings'    },
 ]
 
