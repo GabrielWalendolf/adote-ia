@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { getStats } from '../services/petService'
 
 const cards = [
-  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Adoção com IA',      desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.', cor: 'text-brand-500' },
-  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',           desc: 'Explore todos os animais disponíveis para adoção.', cor: 'text-brand-500' },
-  { to: '/rag',      icon: 'ti-search',   titulo: 'Busca Semântica RAG', desc: 'Faça perguntas em linguagem natural e encontre pets por comportamento, histórico e relatos dos voluntários.', cor: 'text-purple-500' },
-  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',      desc: 'Adicione um novo animal ao sistema de adoção.', cor: 'text-brand-500' },
-  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',       desc: 'Gerencie pets, edite dados e acesse as memórias registradas pelos voluntários.', cor: 'text-brand-500' },
+  { to: '/adocao',   icon: 'ti-sparkles', titulo: 'Encontre seu Pet Ideal', desc: 'Preencha seu perfil e receba recomendações personalizadas de pets compatíveis.', cor: 'text-brand-500' },
+  { to: '/pets',     icon: 'ti-paw',      titulo: 'Ver Pets',              desc: 'Explore todos os animais disponíveis para adoção.', cor: 'text-brand-500' },
+  { to: '/rag',      icon: 'ti-search',   titulo: 'Perguntas sobre os Pets', desc: 'Faça perguntas do seu jeito e encontre pets por comportamento, histórico e relatos dos voluntários.', cor: 'text-purple-500' },
+  { to: '/cadastro', icon: 'ti-plus',     titulo: 'Cadastrar Pet',         desc: 'Adicione um novo animal ao sistema de adoção.', cor: 'text-brand-500' },
+  { to: '/admin',    icon: 'ti-settings', titulo: 'Painel Admin',          desc: 'Gerencie pets, edite dados e acesse o histórico registrado pelos voluntários.', cor: 'text-brand-500' },
 ]
 
 export default function Home() {
@@ -68,8 +68,8 @@ export default function Home() {
         </h3>
         <p className="text-gray-600 text-sm mb-4">
           Voluntários podem gravar <strong>áudios</strong> com observações sobre cada pet.
-          O sistema transcreve automaticamente com <strong>Groq Whisper</strong> e indexa
-          em um <strong>RAG</strong> — permitindo buscas semânticas como:
+          O sistema transcreve a fala automaticamente e guarda tudo no histórico do pet,
+          para que você possa perguntar e encontrar coisas como:
         </p>
         <div className="flex flex-wrap gap-2 text-sm">
           {['"Quais pets não gostam de barulho?"', '"Qual cão é bom com crianças?"', '"Quais gatos são mais calmos?"'].map(ex => (

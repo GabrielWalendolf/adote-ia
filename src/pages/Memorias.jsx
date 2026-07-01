@@ -6,9 +6,8 @@ import {
   adicionarMemoria,
   enviarAudio,
   deletarMemoria,
-  getApiKey,
-  saveApiKey,
 } from '../services/ragService.js'
+import { getApiKey } from '../services/configService.js'
 
 const TIPO_ICON = { audio: 'ti-microphone', texto: 'ti-note', relato: 'ti-file-description' }
 const TIPO_COR  = {
@@ -32,13 +31,12 @@ export default function Memorias() {
   const [pet, setPet]               = useState(null)
   const [memorias, setMemorias]     = useState([])
   const [novaObs, setNovaObs]       = useState('')
-  const [apiKey, setApiKey_]        = useState(getApiKey)
   const [carregando, setCarregando] = useState(true)
   const [salvando, setSalvando]     = useState(false)
   const [transcrevendo, setTranscrevendo] = useState(false)
   const [erro, setErro]             = useState('')
 
-  const trocarKey = v => { setApiKey_(v); saveApiKey(v) }
+  const apiKey = getApiKey()
 
   useEffect(() => {
     Promise.all([
@@ -66,7 +64,7 @@ export default function Memorias() {
   }
 
   const onGravacao = async blob => {
-    if (!apiKey) { setErro('Informe a chave API Groq para transcrever o áudio.'); return }
+    if (!apiKey) { setErro('Este recurso ainda não foi configurado. Peça ao administrador para configurar o acesso no Painel Admin.'); return }
     setTranscrevendo(true)
     setErro('')
     try {
@@ -130,7 +128,7 @@ export default function Memorias() {
         <span className="ml-auto">
           <Link to="/rag" className="btn-secondary text-sm py-1.5 px-3 flex items-center gap-1.5">
             <i className="ti ti-search" />
-            Busca RAG
+            Perguntar sobre os Pets
           </Link>
         </span>
       </div>
@@ -141,21 +139,6 @@ export default function Memorias() {
           {erro}
         </div>
       )}
-
-      {/* Chave API */}
-      <div className="section-card p-4 space-y-2">
-        <label className="label flex items-center gap-1">
-          <i className="ti ti-key text-gray-400" /> Chave API Groq
-          <span className="text-gray-400 font-normal">(necessária para transcrever áudio)</span>
-        </label>
-        <input
-          type="password"
-          value={apiKey}
-          onChange={e => trocarKey(e.target.value)}
-          placeholder="gsk_..."
-          className="input text-sm"
-        />
-      </div>
 
       {/* Observação em texto */}
       <div className="section-card p-5 space-y-3">
@@ -185,14 +168,14 @@ export default function Memorias() {
           <i className="ti ti-microphone text-purple-500" /> Nova Observação em Áudio
         </h2>
         <p className="text-sm text-gray-500">
-          Grave um relato de voz — ele será transcrito automaticamente pelo Groq Whisper e
-          indexado na memória do pet.
+          Grave um relato de voz — ele será transcrito automaticamente em texto e
+          adicionado ao histórico do pet.
         </p>
 
         {transcrevendo ? (
           <div className="flex items-center gap-2 text-purple-600">
             <Spinner className="text-purple-500" />
-            <span className="text-sm">Transcrevendo com Groq Whisper...</span>
+            <span className="text-sm">Transcrevendo áudio...</span>
           </div>
         ) : (
           <GravadorAudio onGravacao={onGravacao} desabilitado={!apiKey || transcrevendo} />
@@ -200,7 +183,7 @@ export default function Memorias() {
 
         {!apiKey && (
           <p className="text-xs text-amber-600">
-            ⚠ Informe a chave API Groq acima para ativar a transcrição de voz.
+            ⚠ A transcrição de voz precisa ser configurada pelo administrador no Painel Admin.
           </p>
         )}
       </div>
@@ -209,7 +192,7 @@ export default function Memorias() {
       <div className="section-card p-5">
         <h2 className="font-semibold text-gray-700 mb-4 flex items-center justify-between">
           <span className="flex items-center gap-2">
-            <i className="ti ti-brain text-brand-500" /> Memórias Indexadas
+            <i className="ti ti-brain text-brand-500" /> Histórico Registrado
           </span>
           <span className="badge bg-brand-100 text-brand-600">{memorias.length}</span>
         </h2>
@@ -217,7 +200,7 @@ export default function Memorias() {
         {memorias.length === 0 ? (
           <div className="text-center py-10 text-gray-400 space-y-1">
             <i className="ti ti-brain text-5xl block opacity-20" />
-            <p className="text-sm">Nenhuma memória registrada ainda.</p>
+            <p className="text-sm">Nenhum histórico registrado ainda.</p>
             <p className="text-xs">Adicione observações de texto ou grave um áudio acima.</p>
           </div>
         ) : (

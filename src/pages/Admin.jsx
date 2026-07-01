@@ -3,6 +3,7 @@ import { usePets } from '../hooks/usePets'
 import PetCard from '../components/PetCard.jsx'
 import { Input, Select, Textarea, CheckItem } from '../components/FormField.jsx'
 import { getStats } from '../services/petService'
+import { getApiKey, saveApiKey } from '../services/configService.js'
 
 const vazio = {
   nome: '', especie: '', raca: '', idade: '', sexo: '', porte: 'medio',
@@ -18,6 +19,9 @@ export default function Admin() {
   const [form, setForm]         = useState(vazio)
   const [salvando, setSalvando] = useState(false)
   const [erro, setErro]         = useState('')
+  const [apiKey, setApiKey]     = useState(getApiKey)
+
+  const trocarApiKey = v => { setApiKey(v); saveApiKey(v) }
 
   useEffect(() => {
     getStats().then(setStats).catch(() => {})
@@ -72,6 +76,30 @@ export default function Admin() {
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
         <i className="ti ti-settings mr-2 text-brand-500"></i>Painel Admin
       </h1>
+
+      <div className="section-card mb-6">
+        <p className="section-label flex items-center gap-1">
+          <i className="ti ti-key text-gray-400" /> Configurações
+        </p>
+        <label className="label" htmlFor="admin-api-key">Chave de acesso à IA</label>
+        <input
+          id="admin-api-key"
+          type="password"
+          placeholder="gsk_..."
+          value={apiKey}
+          onChange={e => trocarApiKey(e.target.value)}
+          className="input text-sm"
+          aria-label="Chave de acesso à IA (Groq)"
+        />
+        <p className="text-xs text-gray-400 mt-1">
+          Necessária para as recomendações de pets e para transcrever áudios em texto.
+          Obtenha uma chave gratuita em{' '}
+          <a href="https://console.groq.com" target="_blank" rel="noreferrer" className="text-brand-500 underline">
+            console.groq.com
+          </a>
+          . Fica salva apenas neste navegador e vale para todos os recursos de IA do sistema.
+        </p>
+      </div>
 
       {stats && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">

@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { getAllPets } from '../services/petService'
 import { recomendarPets } from '../services/groqService'
 import { Input, Select, CheckItem } from '../components/FormField.jsx'
-
-const CHAVE_LS = 'groq_api_key'
+import { getApiKey } from '../services/configService.js'
 
 const perfilVazio = {
   nome: '',
@@ -20,7 +19,6 @@ const perfilVazio = {
 }
 
 export default function Adocao() {
-  const [apiKey, setApiKey]       = useState(() => localStorage.getItem(CHAVE_LS) ?? '')
   const [perfil, setPerfil]       = useState(perfilVazio)
   const [resultado, setResultado] = useState('')
   const [carregando, setCarregando] = useState(false)
@@ -28,16 +26,12 @@ export default function Adocao() {
 
   const set = (campo, valor) => setPerfil(p => ({ ...p, [campo]: valor }))
 
-  const salvarChave = (v) => {
-    setApiKey(v)
-    localStorage.setItem(CHAVE_LS, v)
-  }
-
   const analisar = async () => {
     setErro('')
     setResultado('')
+    const apiKey = getApiKey()
     if (!apiKey.trim()) {
-      setErro('Informe sua chave da API Groq para continuar.')
+      setErro('Este recurso ainda não foi configurado. Peça ao administrador para configurar o acesso no Painel Admin.')
       return
     }
     if (!perfil.nome.trim()) {
@@ -76,28 +70,10 @@ export default function Adocao() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          <i className="ti ti-sparkles mr-2 text-brand-500" aria-hidden="true" />Adoção com IA
+          <i className="ti ti-sparkles mr-2 text-brand-500" aria-hidden="true" />Encontre seu Pet Ideal
         </h1>
         <p className="text-gray-400 text-sm">
-          Preencha seu perfil e a IA vai recomendar os pets do nosso banco que combinam com você.
-        </p>
-      </div>
-
-      <div className="section-card mb-4">
-        <p className="section-label">Chave API Groq</p>
-        <Input
-          type="password"
-          placeholder="gsk_..."
-          value={apiKey}
-          onChange={e => salvarChave(e.target.value)}
-          aria-label="Chave API Groq"
-        />
-        <p className="text-xs text-gray-400 mt-1">
-          Obtenha sua chave gratuita em{' '}
-          <a href="https://console.groq.com" target="_blank" rel="noreferrer" className="text-brand-500 underline">
-            console.groq.com
-          </a>
-          . A chave é salva apenas no seu navegador.
+          Preencha seu perfil e receba recomendações de pets que combinam com você.
         </p>
       </div>
 

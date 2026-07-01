@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { buscarRAG, getApiKey, saveApiKey } from '../services/ragService.js'
+import { buscarRAG } from '../services/ragService.js'
+import { getApiKey } from '../services/configService.js'
 
 const EXEMPLOS = [
   'Quais pets não gostam de barulho?',
@@ -21,16 +22,15 @@ function Spinner() {
 
 export default function RAGBusca() {
   const [query, setQuery]       = useState('')
-  const [apiKey, setApiKey_]    = useState(getApiKey)
   const [resultado, setResultado] = useState(null)
   const [buscando, setBuscando] = useState(false)
   const [erro, setErro]         = useState('')
 
-  const trocarKey = v => { setApiKey_(v); saveApiKey(v) }
+  const apiKey = getApiKey()
 
   const buscar = async () => {
     if (!query.trim()) return
-    if (!apiKey) { setErro('Informe a chave API Groq para usar o RAG.'); return }
+    if (!apiKey) { setErro('Este recurso ainda não foi configurado. Peça ao administrador para configurar o acesso no Painel Admin.'); return }
     setBuscando(true)
     setErro('')
     setResultado(null)
@@ -50,38 +50,22 @@ export default function RAGBusca() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-          <i className="ti ti-search text-brand-500" /> Busca Semântica — RAG
+          <i className="ti ti-search text-brand-500" /> Perguntas sobre os Pets
         </h1>
         <p className="text-sm text-gray-500 mt-1">
-          Faça perguntas em linguagem natural sobre comportamentos, histórico e
-          características dos pets. O sistema busca nas memórias registradas pelos voluntários.
+          Faça perguntas do seu jeito sobre comportamento, histórico e características
+          dos pets. O sistema procura nos relatos registrados pelos voluntários.
         </p>
       </div>
 
       {/* Como funciona */}
       <div className="bg-brand-50 border border-brand-100 rounded-xl p-4 text-sm text-brand-700 space-y-1">
-        <p className="font-semibold">Como funciona o RAG?</p>
+        <p className="font-semibold">Como funciona?</p>
         <p>
-          Cada pet tem uma "memória viva" formada por relatos e áudios dos voluntários.
-          O sistema recupera todas essas memórias e usa o modelo de linguagem da Groq
-          para encontrar os pets que melhor correspondem à sua pergunta.
+          Cada pet tem um histórico formado por relatos e áudios enviados pelos voluntários.
+          Quando você faz uma pergunta, o sistema procura nesse histórico e usa inteligência
+          artificial para encontrar os pets que melhor combinam com o que você perguntou.
         </p>
-      </div>
-
-      {/* Chave API */}
-      <div className="section-card p-4 space-y-2">
-        <label className="label flex items-center gap-1" htmlFor="rag-api-key">
-          <i className="ti ti-key text-gray-400" /> Chave API Groq
-        </label>
-        <input
-          id="rag-api-key"
-          type="password"
-          value={apiKey}
-          onChange={e => trocarKey(e.target.value)}
-          placeholder="gsk_..."
-          className="input text-sm"
-          aria-label="Chave API Groq"
-        />
       </div>
 
       {/* Campo de busca */}
@@ -108,7 +92,7 @@ export default function RAGBusca() {
 
         {buscando && (
           <p className="text-sm text-gray-400 animate-pulse text-center">
-            Consultando memórias dos pets via Groq... pode levar alguns segundos.
+            Consultando o histórico dos pets... pode levar alguns segundos.
           </p>
         )}
 
@@ -141,9 +125,9 @@ export default function RAGBusca() {
 
           {/* Métricas */}
           <div className="flex gap-4 text-sm text-gray-500 px-1">
-            <span><i className="ti ti-brain mr-1" />{resultado.totalMemoriasIndexadas} memórias indexadas</span>
+            <span><i className="ti ti-brain mr-1" />{resultado.totalMemoriasIndexadas} relatos consultados</span>
             <span>·</span>
-            <span><i className="ti ti-paw mr-1" />{resultado.totalPets} pets na base</span>
+            <span><i className="ti ti-paw mr-1" />{resultado.totalPets} pets no sistema</span>
           </div>
 
           {/* Resposta do LLM */}
@@ -196,7 +180,7 @@ export default function RAGBusca() {
           <i className="ti ti-brain text-6xl block opacity-20" />
           <p>Digite uma pergunta sobre os pets para iniciar a busca.</p>
           <p className="text-sm">
-            O RAG pesquisa nas memórias e observações registradas pelos voluntários.
+            A busca usa os relatos e observações registrados pelos voluntários.
           </p>
           <Link to="/admin" className="btn-secondary text-sm inline-flex items-center gap-1 mt-2">
             <i className="ti ti-paw" /> Ver pets no Admin

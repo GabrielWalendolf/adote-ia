@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
 const links = [
-  { to: '/',         label: 'Início',        icon: 'ti-home'        },
-  { to: '/adocao',   label: 'Adoção IA',     icon: 'ti-sparkles'    },
-  { to: '/pets',     label: 'Pets',          icon: 'ti-paw'         },
-  { to: '/rag',      label: 'Busca RAG',     icon: 'ti-search'      },
-  { to: '/cadastro', label: 'Cadastrar',     icon: 'ti-plus'        },
-  { to: '/admin',    label: 'Admin',         icon: 'ti-settings'    },
+  { to: '/',         label: 'Início',           icon: 'ti-home'        },
+  { to: '/adocao',   label: 'Encontre seu Pet', icon: 'ti-sparkles'    },
+  { to: '/pets',     label: 'Pets',             icon: 'ti-paw'         },
+  { to: '/rag',      label: 'Perguntar',        icon: 'ti-search'      },
+  { to: '/cadastro', label: 'Cadastrar',        icon: 'ti-plus'        },
+  { to: '/admin',    label: 'Admin',            icon: 'ti-settings'    },
 ]
 
 export default function Navbar() {

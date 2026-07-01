@@ -1,13 +1,3 @@
-const CHAVE_LS = 'groq_api_key'
-
-export function getApiKey() {
-  return localStorage.getItem(CHAVE_LS) || ''
-}
-
-export function saveApiKey(key) {
-  localStorage.setItem(CHAVE_LS, key)
-}
-
 export async function listarMemorias(petId) {
   const res = await fetch(`/api/pets/${petId}/memories`)
   if (!res.ok) throw new Error('Erro ao carregar memórias.')
